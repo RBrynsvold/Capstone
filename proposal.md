@@ -5,10 +5,15 @@ __Goal__: Gain some insight about literary texts using NLP.  I haven't settled y
 * Predicting authorship of books, based on other works by that other (training set = one set of his/her
   books, test set = another set)
 * Grouping books by thematic elements via latent feature analysis (SVD/PCA/as appropriate)
+* How language changes over time
+* How words have changed meaning over time
+* Evolution of slang
 * Character sentiment analysis: choose some subset of famous literary characters and analyze their dialogue
   to do sentiment analysis... challenge here would be to isolate a given character's dialogue, so not sure
   this is actually feasible.
 There's really so much possibility here - the issue is going to be narrowing it down!
+
+Lexicon Valley
 
 __Data Source__: [Project Gutenberg](http://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages) has full text of 54,000 (!!) public domain books available for download!  This will be a really great dataset to use to play with NLP.
 
