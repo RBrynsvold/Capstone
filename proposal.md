@@ -1,7 +1,7 @@
 
 # Project Proposal: Literary Analysis with NLP in collaboration with Terminal Labs
 
-__Goal__: Gain some insight about literary texts using NLP.  I haven't settled yet on the exact analysis I wantto do, but some ideas I've had floating around are:
+__Goal__: Gain some insight about literary texts using NLP.  I haven't settled yet on the exact analysis I want to do, but my candidate ideas are:
 * Predicting authorship of books, based on other works by that other (training set = one set of his/her
   books, test set = another set)
 * Grouping books by thematic elements via latent feature analysis (SVD/PCA/as appropriate)
@@ -10,9 +10,14 @@ __Goal__: Gain some insight about literary texts using NLP.  I haven't settled y
   this is actually feasible.
 There's really so much possibility here - the issue is going to be narrowing it down!
 
-__Data Source__: [Project Gutenberg](http://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages) has full text of 54,000 (!!) public domain books available for download!  This would be a really great dataset to use to play with NLP.  I am pretty confident I'll be able to obtain and use this dataset, but it's a little involved to get started, and so I haven't validated this assumption yet.  So I guess this is my 'I think I can get the data' proposal.
+__Data Source__: [Project Gutenberg](http://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages) has full text of 54,000 (!!) public domain books available for download!  This will be a really great dataset to use to play with NLP.
 
 __Presentation Format__: Slides
+
+__9/8 updates__: Last weekend I did some initial investigation of how to get the data.  Although I haven't yet downloaded/accessed it, I am 100% sure that I can get it - I found lots of pages where people detail how they went about downloading it.  I even saw some pre-existing libraries for working with this specific dataset (parsing the strings, etc).
+
+__Next steps__: NLP Literary Analysis/'Digitial Humanities' research.  This is a new field of course, but from what I can tell, it's already pretty rich.  I'm still liking my authorship prediction and/or latent feature analysis for thematic elements, and with some research this weekend on what kinds of things people are doing and having success with, I think I will be ready to have a firm subject proposal by middle/end of next week.
+
 
 ### Terminal Labs collaboration
 
