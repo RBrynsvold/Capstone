@@ -2,16 +2,22 @@
 # Project Proposal: Literary Analysis with NLP in collaboration with Terminal Labs
 
 __Goal__: Gain some insight about literary texts using NLP.  I haven't settled yet on the exact analysis I want to do, but my candidate ideas are:
-* Predicting authorship of books, based on other works by that other (training set = one set of his/her
+* __Networks from Topic models__
+  * Develop a topic model of some subset of the Gutenberg corpus, and use that network to create a network of the texts.
+  * I am interested in applications where you can create a topic model from an existing corpus, and then use that
+  model to suggest/display similar documents from the corpus when a document is added
+  * I believe this has applications in various knowledge management systems - specifically to my top target company and their knowledge management and bug tracking products.
+  
+* Backup/auxilliary topic: authorship of books, based on other works by that author (training set = one set of his/her
   books, test set = another set)
-* Grouping books by thematic elements via latent feature analysis (SVD/PCA/as appropriate)
+
+Other
 * How language changes over time
 * How words have changed meaning over time
 * Evolution of slang
 * Character sentiment analysis: choose some subset of famous literary characters and analyze their dialogue
   to do sentiment analysis... challenge here would be to isolate a given character's dialogue, so not sure
   this is actually feasible.
-There's really so much possibility here - the issue is going to be narrowing it down!
 
 Lexicon Valley
 
