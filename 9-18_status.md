@@ -17,17 +17,16 @@
 * AWS and Rambo progress
   * Successfully spun up a rambo vm on AWS with my TL sponsor over the weekend
 
-## Challenges
+## Challenges --> Next Steps
 
-* The tar download includes non-english, and I think no metadata (how to discriminate btwn)
-* Need to find method to tag records - either meta-data, or text parsing.  This is a big one.
-* Need to parse text to get only the book text (cut out gutenberg legal stuff, copyright info, etc etc)
+* tar download includes non-english, and I think no metadata (how to discriminate btwn)
+* Records not tagged
+  * Next step: figure out way to tag using either meta-data, or text parsing.  This is a big one.
+* Documents have 'crud' at beginning and end
+  * Next step: figure out how to parse to get only the book text (cut out gutenberg legal stuff, copyright info, etc etc)
 * Lots to learn about practically applying NLP, LDA, etc
 * Not yet satisfied with data obtaining method
+  * Next step: narrow down options, pursue, and time-box.  Have backup in case no programmatic method is working
 * Still working out vm/rambo workflow, although I think this is pretty close to resolved
 
-## Next Steps
-
-* Need help prioritizing, finalizing data acquisition and parsing method to use for this project
-* Once data source finalized, clean and parse data, load into corpus, do eda
-* Figure out record tagging (metadata)
+**Need help prioritizing, finalizing data acquisition and parsing method to use for this project**
