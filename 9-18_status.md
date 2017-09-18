@@ -28,5 +28,6 @@
 * Not yet satisfied with data obtaining method
   * Next step: narrow down options, pursue, and time-box.  Have backup in case no programmatic method is working
 * Still working out vm/rambo workflow, although I think this is pretty close to resolved
+* Python 2.7 or Python 3?
 
 **Need help prioritizing, finalizing data acquisition and parsing method to use for this project**
