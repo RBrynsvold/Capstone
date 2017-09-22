@@ -1,59 +1,44 @@
 
-# Project 1: Literary Analysis with NLP
-
-Goal: Gain some insight about literary texts using NLP.  I haven't settled yet on the exact analysis I want
-to do, but some ideas I've had floating around are:
-* Predicting authorship of books, based on other works by that other (training set = one set of his/her
+# Project Proposal: Networks from Topic Models (working title)
+* Develop a topic model of some subset of the Project Gutenberg corpus, and use that model to create a network of the texts. 
+   * Specific subset TBD; definitely English-language only, maybe fiction/non-fiction only, may have to reduce if I can't get good topics out of my model
+* I am interested in applications where you can create a topic model from an existing corpus, and then use that model to identify similar documents from the training corpus when a new document is added
+* I believe this has applications in various knowledge management systems - specifically to my top target company and their knowledge management and bug tracking products.
+  
+* Backup/auxilliary topic: authorship of books, based on other works by that author (training set = one set of his/her
   books, test set = another set)
-* Grouping books by thematic elements via latent feature analysis (SVD/PCA/as appropriate)
+
+__Data Source__: [Project Gutenberg](http://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages) has full text of 54,000 (!) public domain books available for download!  This will be a really great dataset to use to play with NLP.
+
+__Next steps__: Further research on topic modeling (LDA - latent dirchlet analysis - etc).
+
+__Notes__ 
+* I found lots of pages where people detail how they went about downloading the PG dataset.  
+* I've even seen some pre-existing libraries for working with the PG dataset (parsing the strings, etc).
+
+
+### Terminal Labs collaboration  
+
+My capstone partner, Terminal Labs, has asked me to use their open-source [project Rambo](https://github.com/terminal-labs/rambo).  From the project github:
+
+>This repo is for provisioning and configuration of virtual machines (and containers) in a simple and predictable way. Just run one command and your vms is up, code is deployed and your app is running, on any supported platform.
+
+>At this time the repo allows you to create a debian 8 Jessie VM on multiple providers (AWS EC2, Digitalocean, Virtualbox, lxc) The base machine configuration is a debian 8 Jessie 64bit os with 1024mb ram, and 30GB drive.
+
+By using Rambo, I'll add additional depth to the project around reproducibility and persistence of data science work.  
+
+I'll also be submitting my project as a talk for the [PyTexas conference](https://www.pytexas.org/2017/) on Nov 18th and 19th, which I'm very excited about!
+
+
+
+
+
+### Misc
+
+_Earlier project ideas - not currently planning to go forward with these
+* How language changes over time
+* How words have changed meaning over time
+* Evolution of slang
 * Character sentiment analysis: choose some subset of famous literary characters and analyze their dialogue
   to do sentiment analysis... challenge here would be to isolate a given character's dialogue, so not sure
-  this is actually feasible.
-There's really so much possibility here - the issue is going to be narrowing it down!
-
-Data Source: Project Gutenberg 
-( http://www.gutenberg.org/wiki/Gutenberg:Information_About_Robot_Access_to_our_Pages ) has full text of 
-54,000 (!!) public domain books available for download!  This would be a really great dataset to use to play
-with NLP.  I am pretty confident I'll be able to obtain and use this dataset, but it's a little involved to 
-get started, and so I haven't validated this assumption yet.  So I guess this is my 'I think I can get the 
-data' proposal.
-
-Presentation Format: Slides
-
-Next Step: Confirm that the data accessibility will work as I'm anticipating (ie download the data).
-
-
-
-# Project 2: Alzheimers Prediction with MRI data  <--- Proposal rejected; project scope not big enough, unless
-**I can find some goal beyond the basic kaggle problem**
-
-Goal: Using a dataset of MRI scans of both healthy individuals and patients affected by Alzheimer's, train a 
-model to predict Alzheimer's based on a MRI scan.
-
-Data Source: This is a kaggle competition ( https://www.kaggle.com/jboysen/mri-and-alzheimers ).  That part
-I'm not super excited about, but this project is both easily relatable and has readily apparent importance. 
-It also holds some special significance to me; I've got an Alzheimer's on both sides of my family.  This is 
-my 'I can definitely get the data' proposal, since the data is right there and available for download.  This 
-is the backup to my backup.
-
-Presentation Format: Slides
-
-Next Step: None that I can think of right now.
-
-
-
-# Project 3: TBD collaboration with Terminal Labs
-
-I'm in discussions with the CIO of a local company (Terminal Labs) about collaborating on a project with 
-them. I'm about 70% sure at this point that it is going to go forward.  My contact is meeting with the team 
-early this week to flesh out some ideas of what would be most useful to them, and I plan to meet with him  
-again later this week to finalize an idea.  We've agreed on a deadline of Friday 9/1 for the topic - this 
-would allow me to have a solid proposal ready for galvanize instructor review by Monday 9/4.
-
-This is my Plan A right now, but I feel really good about my Plan B (the Literary Analysis with NLP project) if
-this does fall apart.  
-
-Next step: Follow up with email tomorrow morning and phone call tomorrow afternoon.  Go/no go decision neeeded
-when?
-
-I've also got some more ideas here: https://docs.google.com/spreadsheets/d/1lenTRKramtTyTRHPKd__rCq2IVCf4PyT6o2RrXosKis/edit?usp=sharing
+  this is actually feasible._
