@@ -17,7 +17,7 @@ def clean():
         clean_path = clean_path_head + file_name
 
         clean_comm = "python -m gutenberg.cleanup.strip_headers " + raw_path + " " + clean_path
-        print clean_comm
+        #print clean_comm
         os.system(clean_comm)
 
 if __name__=='__main__':
