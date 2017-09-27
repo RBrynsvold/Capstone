@@ -3,7 +3,7 @@ import sys, os, codecs
 def clean():
 
     #path_head is HARD-CODED - change if new file structure!
-    raw_path_head = "/home/ubuntu/data_download/all_txt_files/"
+    raw_path_head = "/home/ubuntu/data_download/final_txt_files/"
     clean_path_head = "/home/ubuntu/data_download/clean_books/"
 
     #get list of text file names to iterate thru
