@@ -7,7 +7,7 @@ def clean():
     clean_path_head = "/home/ubuntu/data_download/clean_books/"
 
     #get list of text file names to iterate thru
-    fname = "/home/ubuntu/data_download/filepaths.txt"
+    fname = "/home/ubuntu/data_download/filepaths_test.txt"
     with open(fname, 'r', encoding='utf_8') as f:
         content = f.readlines()
     txt_file_lst = [x.strip('\n') for x in content]
