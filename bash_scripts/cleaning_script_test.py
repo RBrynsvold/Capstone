@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, codecs
 
 def clean():
 
@@ -8,7 +8,7 @@ def clean():
 
     #get list of text file names to iterate thru
     fname = "/home/ubuntu/data_download/filepaths_test.txt"
-    with open(fname, 'r', encoding='utf_8') as f:
+    with codecs.open(fname, 'r', encoding='utf_8') as f:
         content = f.readlines()
     txt_file_lst = [x.strip('\n') for x in content]
     ##
