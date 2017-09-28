@@ -184,8 +184,8 @@ if __name__=='__main__':
     distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
     #relative filepaths
-    source_dir  = '../books/clean' + '/' #for 95-book practice data
-    #source_dir = '../../clean_books' + '/'  #for full data set
+    #source_dir  = '../books/clean' + '/' #for 95-book practice data
+    source_dir = '../../clean_books' + '/'  #for full data set
     outputs_dir = '../outputs' + '/' # same both ways
 
     create_save_objs(source_dir, outputs_dir, distinguishing_str)
