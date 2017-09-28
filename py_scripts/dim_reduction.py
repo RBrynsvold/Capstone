@@ -124,6 +124,7 @@ def save_stuff(distinguishing_str, dictionary, corpus, outputs_dir):
     '''
     Create directory and save the outputs of the desired object(s)
     '''
+    ##this does not work - no dir is being made - troubleshoot
     file_path = outputs_dir + distinguishing_str
     directory = os.path.dirname(file_path)
     if not os.path.exists(directory):
@@ -192,7 +193,7 @@ if __name__=='__main__':
 
     #relative filepaths
     #source_dir  = '../books/clean' + '/' #for 95-book practice data
-    source_dir = '../../clean_books' + '/'  #for full data set
+    source_dir = '../../final_txt_files' + '/'  #for full data set
     outputs_dir = '../outputs' + '/' # same both ways
 
     create_save_objs(source_dir, outputs_dir, distinguishing_str)
