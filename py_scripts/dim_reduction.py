@@ -193,7 +193,7 @@ if __name__=='__main__':
 
     #relative filepaths
     #source_dir  = '../books/clean' + '/' #for 95-book practice data
-    source_dir = '../../final_txt_files' + '/'  #for full data set
+    source_dir = '../clean_books' + '/'  #for full data set
     outputs_dir = '../outputs' + '/' # same both ways
 
     create_save_objs(source_dir, outputs_dir, distinguishing_str)
