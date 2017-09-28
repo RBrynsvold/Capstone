@@ -32,8 +32,12 @@ class IterFile(object):
         '''
         self._open_file()
 
-        for line in self.file:
-            yield line
+        try:
+            for line in self.file:
+                    yield line
+        except UnicodeDecodeError:
+            print "unicode error caught"
+            yield "unicodedecodeerrorskip"
 
         self._close_file()
 
@@ -45,7 +49,8 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     '''
     fileid_lst = get_fileid_lst(source_dir)
 
-    all_transf_books_lst = [transform_txt_file(f, source_dir, stop_words, min_freq=None) for f in fileid_lst]
+    initial_transf_books_lst = [transform_txt_file(f, source_dir, stop_words, min_freq=None) for f in fileid_lst]
+    all_transf_books_lst = [book for book in initial_transf_books_lst if book != []]
 
     dictionary = corpora.Dictionary(all_transf_books_lst)
     corpus = [dictionary.doc2bow(book) for book in all_transf_books_lst]
@@ -73,6 +78,8 @@ def transform_txt_file(fname, root, stop_words, min_freq=1):
     fp = root + fname
     book_as_lst = []
     for line in IterFile(fp):
+        if line == "unicodedecodeerrorskip":
+            return []
 
         if empty_line_check(line) == False:
             line = basic_tokenize(line)
