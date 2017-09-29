@@ -80,6 +80,8 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     dictionary = corpora.dictionary.Dictionary()
     lst_of_book_lsts = []
 
+    print "starting iteration thru corpus"
+    print "************************************************"
 
     for f_id in fileid_lst:
 
@@ -89,7 +91,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
         current_dict = current_book.dictionary
         current_book_lst = current_book.book_as_lst
 
-        full_dictionary.add_documents(current_dict)
+        dictionary.add_documents(current_dict)
         lst_of_book_lsts.append(current_dict)
     print "transformations and dictionary building complete"
     print "************************************************"
@@ -184,9 +186,14 @@ if __name__=='__main__':
     #relative filepaths
     if use_full_data == 'n':
         source_dir  = '../books/clean' + '/' #for 95-book practice data
-    if use_full_data == 'y':
+    elif use_full_data == 'y':
         source_dir = '../../clean_books' + '/'  #for full data set
+    else:
+        source_dir = 'invalid file path to raise error'
+        print "please rerun and enter either 'y' or 'n' "
+
     print "Data source to be used: ", source_dir
+    print "************************************************"
 
     outputs_dir = '../outputs' + '/' # same both ways
 
