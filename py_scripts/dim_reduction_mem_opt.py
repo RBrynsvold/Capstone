@@ -25,6 +25,7 @@ class BookUtil(object):
         self.book_as_lst = []
         self.file = codecs.open(self.filepath, 'r', encoding='utf_8')
         self.stop = stop
+        print "book obj instantiated"
 
     def empty_line_check(self, line) :
         '''
@@ -52,21 +53,25 @@ class BookUtil(object):
     def transform(self):
         '''
         '''
+        print "transform called"
         try:
-            for l in self.file:
-                    line = l
+            for num, line in enumerate(self.file):
+                print num, line
+                if self.empty_line_check(line) == False:
+                    line = self.basic_tokenize(line)
+                    print line
+                    line = self.remove_stop_words(line)
+                    print line
+
+                    self.dictionary.add_documents(line)
+                    self.book_as_lst.extend(line)
+                    if num % 10 == 0:
+                        print num, " books processed"
+                        print "dictionary length: ", len(self.dictionary)
         except UnicodeDecodeError:
             print "unicode error caught"
 
-        for line in self.file:
-            if self.empty_line_check(line) == False:
-                line = self.basic_tokenize(line)
-                line = self.remove_stop_words(line)
-
-                self.dictionary.add_documents(line)
-                self.book_as_lst.extend(line)
-
-        #print self.filepath, " has been processed"
+        print self.filepath, " has been processed"
         self.file.close()
 
 
@@ -83,6 +88,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     print "starting iteration thru corpus"
     print "************************************************"
 
+    print fileid_lst
     for f_id in fileid_lst:
 
         current_book = BookUtil(f_id, source_dir, stop)
@@ -96,13 +102,13 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     print "transformations and dictionary building complete"
     print "************************************************"
 
-    corpus = [dictionary.doc2bow(book) for book in lst_of_book_lsts]
+    corpus = [dictionary.doc2bow(book.split()) for book in lst_of_book_lsts]
     print "corpus complete"
     print "************************************************"
 
     # avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid = dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus)
 
-    save_stuff(distinguishing_str, dictionary, corpus, outputs_dir)
+    save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=corpus, outputs_dir=outputs_dir)
 
     print "Dimensional reduction complete!"
     print "After dimensional reduction:"
