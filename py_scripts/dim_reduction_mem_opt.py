@@ -10,7 +10,7 @@ import numpy as np
 import nltk
 
 from nltk.corpus import stopwords
-nltk.download('stopwords')
+#nltk.download('stopwords')
 #^should I include download of nltk stopwords in my vagrant configuration?
 
 
@@ -25,7 +25,6 @@ class BookUtil(object):
         self.book_as_lst = []
         self.file = codecs.open(self.filepath, 'r', encoding='utf_8')
         self.stop = stop
-        print "book obj instantiated"
 
     def empty_line_check(self, line) :
         '''
@@ -53,21 +52,13 @@ class BookUtil(object):
     def transform(self):
         '''
         '''
-        print "transform called"
         try:
             for num, line in enumerate(self.file):
-                print num, line
                 if self.empty_line_check(line) == False:
                     line = self.basic_tokenize(line)
-                    print line
                     line = self.remove_stop_words(line)
-                    print line
-
-                    self.dictionary.add_documents(line)
-                    self.book_as_lst.extend(line)
-                    if num % 10 == 0:
-                        print num, " books processed"
-                        print "dictionary length: ", len(self.dictionary)
+                    self.book_as_lst.append(line)
+            #self.dictionary.add_documents(self.book_as_lst)
         except UnicodeDecodeError:
             print "unicode error caught"
 
@@ -88,21 +79,19 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     print "starting iteration thru corpus"
     print "************************************************"
 
-    print fileid_lst
     for f_id in fileid_lst:
 
         current_book = BookUtil(f_id, source_dir, stop)
         current_book.transform()
 
-        current_dict = current_book.dictionary
         current_book_lst = current_book.book_as_lst
 
-        dictionary.add_documents(current_dict)
-        lst_of_book_lsts.append(current_dict)
+        dictionary.add_documents(current_book_lst)
+        lst_of_book_lsts.append([val for sublist in current_book_lst for val in sublist])
     print "transformations and dictionary building complete"
     print "************************************************"
 
-    corpus = [dictionary.doc2bow(book.split()) for book in lst_of_book_lsts]
+    corpus = [dictionary.doc2bow(book) for book in lst_of_book_lsts]
     print "corpus complete"
     print "************************************************"
 
