@@ -11,44 +11,63 @@ import nltk
 
 from nltk.corpus import stopwords
 nltk.download('stopwords')
+#^should I include download of nltk stopwords in my vagrant configuration?
 
-class IterFile(object):
+
+class BookUtil(object):
     '''
     class object to reliably perform the file i/o needed for iterating on individual book txt text files.
     '''
 
-    def __init__(self, filepath):
-        self.filepath = filepath
-        self.dictionary = corpora.Dictionary()
-        self.stop = set(stopwords.words('english'))
-        #add stopword creation
-
-    def _open_file(self):
+    def __init__(self, fname, root, stop):
+        self.filepath = root + fname
+        self.dictionary = corpora.dictionary.Dictionary()
+        self.book_as_lst = []
         self.file = codecs.open(self.filepath, 'r', encoding='utf_8')
+        self.stop = stop
 
-    def _close_file(self):
-        self.file.close()
-
-    def __iter__(self):
+    def empty_line_check(self, line) :
         '''
-        overwrite iteration to include file i/o
+        checks for empty line
         '''
-        self._open_file()
+        if line == "\n":
+            empty = True
+        else:
+            empty = False
+        return empty
 
-        try:
-            for line in self.file:
-                    yield line
-        except UnicodeDecodeError:
-            print "unicode error caught"
-            yield "unicodedecodeerrorskip"
+    def basic_tokenize(self,line):
+        '''
+        convert to list
+        strip punctuation, lowercase
+        '''
+        return [tok.lower().strip(punctuation) for tok in line.strip('\n').split()]
 
-        self._close_file()
-
-    def remove_stop_words(line):
+    def remove_stop_words(self, line):
         '''
         Get the stopwords list from nltk and take them out of the line
         '''
         return [tok for tok in line if tok not in self.stop]
+
+    def transform(self):
+        '''
+        '''
+        try:
+            for l in self.file:
+                    line = l
+        except UnicodeDecodeError:
+            print "unicode error caught"
+
+        for line in self.file:
+            if self.empty_line_check(line) == False:
+                line = self.basic_tokenize(line)
+                line = self.remove_stop_words(line)
+
+                self.dictionary.add_documents(line)
+                self.book_as_lst.extend(line)
+
+        #print self.filepath, " has been processed"
+        self.file.close()
 
 
 def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y', min_freq=1):
@@ -57,54 +76,41 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     Create and save gensim objects needed for lda model (corpus, dictionary).
     '''
     fileid_lst = get_fileid_lst(source_dir)
+    stop = set(stopwords.words('english'))
+    dictionary = corpora.dictionary.Dictionary()
+    lst_of_book_lsts = []
 
-    initial_transf_books_lst = [transform_txt_file(f, source_dir, stop_words, min_freq=None) for f in fileid_lst]
-    all_transf_books_lst = [book for book in initial_transf_books_lst if book != []]
 
-    dictionary = corpora.Dictionary(all_transf_books_lst)
-    corpus = [dictionary.doc2bow(book) for book in all_transf_books_lst]
+    for f_id in fileid_lst:
 
-    avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid = dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus)
+        current_book = BookUtil(f_id, source_dir, stop)
+        current_book.transform()
+
+        current_dict = current_book.dictionary
+        current_book_lst = current_book.book_as_lst
+
+        full_dictionary.add_documents(current_dict)
+        lst_of_book_lsts.append(current_dict)
+    print "transformations and dictionary building complete"
+    print "************************************************"
+
+    corpus = [dictionary.doc2bow(book) for book in lst_of_book_lsts]
+    print "corpus complete"
+    print "************************************************"
+
+    # avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid = dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus)
 
     save_stuff(distinguishing_str, dictionary, corpus, outputs_dir)
 
     print "Dimensional reduction complete!"
     print "After dimensional reduction:"
     print "   "
-    print "Average total tokens per book:        ", avg_num_tokens
-    print "Average unique tokens per book:       ", avg_unique_toks
-    print "Number of unique words in vocabulary: ", dictionary_length
+    # print "Average total tokens per book:        ", avg_num_tokens
+    # print "Average unique tokens per book:       ", avg_unique_toks
+    # print "Number of unique words in vocabulary: ", dictionary_length
 
-    return avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid
+    # return avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid
     #need to write dimensionality reduction stuff to file for review
-
-
-def transform_txt_file(fname, root, stop_words, min_freq=1):
-    '''
-    Top-level function to call all of the subfunctions for text transformation
-    Assumes you want to remove empty lines and tokenize (because you do)
-    '''
-    fp = root + fname
-    book_as_lst = []
-    current_book = Iterfile(fp)
-    for line in current_book:
-        if line == "unicodedecodeerrorskip":
-            return []
-
-        if empty_line_check(line) == False:
-            line = basic_tokenize(line)
-
-            if stop_words !=None:
-                line = remove_stop_words(line)
-
-            #book_as_lst.extend(line)
-            current_book.add_documents(line)
-
-    # if min_freq != None:
-    #     book_as_lst = frequency_filtering(book_as_lst, n=min_freq)
-
-    print fname, " transformed"
-    return current_book.
 
 
 def dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus):
@@ -148,25 +154,6 @@ def save_stuff(distinguishing_str, dictionary, corpus, outputs_dir):
         corpora.MmCorpus.serialize(file_path + '_corpus.mm', corpus)
 
 
-def empty_line_check(line) :
-    '''
-    checks for empty line
-    '''
-    if line == "\n":
-        empty = True
-    else:
-        empty = False
-    return empty
-
-
-def basic_tokenize(line):
-    '''
-    convert to list
-    strip punctuation, lowercase
-    '''
-    return [tok.lower().strip(punctuation) for tok in line.strip('\n').split()]
-
-
 ##THIS GOES TOO SLOW -
 #to add the freq filtering functionality back in (if time permits), need to do it like here: https://stackoverflow.com/questions/24688116/how-to-filter-out-words-with-low-tf-idf-in-a-corpus-with-gensim
 def frequency_filtering(book_as_lst, n):
@@ -191,11 +178,16 @@ def get_fileid_lst(source_dir):
 
 if __name__=='__main__':
 
+    use_full_data = raw_input("Will you be using the full data set (y/n)?: ")
     distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
     #relative filepaths
-    #source_dir  = '../books/clean' + '/' #for 95-book practice data
-    source_dir = '../../clean_books' + '/'  #for full data set
+    if use_full_data == 'n':
+        source_dir  = '../books/clean' + '/' #for 95-book practice data
+    if use_full_data == 'y':
+        source_dir = '../../clean_books' + '/'  #for full data set
+    print "Data source to be used: ", source_dir
+
     outputs_dir = '../outputs' + '/' # same both ways
 
     create_save_objs(source_dir, outputs_dir, distinguishing_str)
