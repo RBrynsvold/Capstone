@@ -19,6 +19,9 @@ class IterFile(object):
 
     def __init__(self, filepath):
         self.filepath = filepath
+        self.dictionary = corpora.Dictionary()
+        self.stop = set(stopwords.words('english'))
+        #add stopword creation
 
     def _open_file(self):
         self.file = codecs.open(self.filepath, 'r', encoding='utf_8')
@@ -40,6 +43,12 @@ class IterFile(object):
             yield "unicodedecodeerrorskip"
 
         self._close_file()
+
+    def remove_stop_words(line):
+        '''
+        Get the stopwords list from nltk and take them out of the line
+        '''
+        return [tok for tok in line if tok not in self.stop]
 
 
 def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y', min_freq=1):
@@ -77,7 +86,8 @@ def transform_txt_file(fname, root, stop_words, min_freq=1):
     '''
     fp = root + fname
     book_as_lst = []
-    for line in IterFile(fp):
+    current_book = Iterfile(fp)
+    for line in current_book:
         if line == "unicodedecodeerrorskip":
             return []
 
@@ -87,13 +97,14 @@ def transform_txt_file(fname, root, stop_words, min_freq=1):
             if stop_words !=None:
                 line = remove_stop_words(line)
 
-            book_as_lst.extend(line)
+            #book_as_lst.extend(line)
+            current_book.add_documents(line)
 
-    if min_freq != None:
-        book_as_lst = frequency_filtering(book_as_lst, n=min_freq)
+    # if min_freq != None:
+    #     book_as_lst = frequency_filtering(book_as_lst, n=min_freq)
 
     print fname, " transformed"
-    return book_as_lst
+    return current_book.
 
 
 def dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus):
@@ -156,15 +167,6 @@ def basic_tokenize(line):
     return [tok.lower().strip(punctuation) for tok in line.strip('\n').split()]
 
 
-def remove_stop_words(line):
-    '''
-    Get the stopwords list from nltk and take them out of the line
-    '''
-    stop = set(stopwords.words('english'))
-
-    return [tok for tok in line if tok not in stop]
-
-
 ##THIS GOES TOO SLOW -
 #to add the freq filtering functionality back in (if time permits), need to do it like here: https://stackoverflow.com/questions/24688116/how-to-filter-out-words-with-low-tf-idf-in-a-corpus-with-gensim
 def frequency_filtering(book_as_lst, n):
@@ -192,13 +194,8 @@ if __name__=='__main__':
     distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
     #relative filepaths
-<<<<<<< HEAD
-    #source_dir  = '../books/clean' + '/' #for 95-book practice data
-    source_dir = '../../clean_books' + '/'  #for full data set
-=======
     source_dir  = '../books/clean' + '/' #for 95-book practice data
     #source_dir = '../../clean_books' + '/'  #for full data set
->>>>>>> fe00acb25cd16c4c34dc5f44822dc7d9471e24d3
     outputs_dir = '../outputs' + '/' # same both ways
 
     create_save_objs(source_dir, outputs_dir, distinguishing_str)
