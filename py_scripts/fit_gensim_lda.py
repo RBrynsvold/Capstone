@@ -37,7 +37,7 @@ def save_model(model, rw_dir, distinguishing_str):
     '''
     Saves the model to the same directory that contains the corpus and dictionary files.  File extension .model extension
     '''
-    model.save(rw_dir + distinguishing_str)
+    model.save(rw_dir + distinguishing_str + '.model')
 
 
 if __name__=='__main__':
