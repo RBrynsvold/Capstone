@@ -132,7 +132,7 @@ def process_books(fileid_lst, books_lst_filep):
     dictionary = corpora.dictionary.Dictionary()
     stop = set(stopwords.words('english'))
 
-    f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
+    # f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
 
     for f_id in fileid_lst:
 
@@ -145,8 +145,8 @@ def process_books(fileid_lst, books_lst_filep):
 
         one_d_book_lsts = [val for sublist in current_book_lst for val in sublist]
 
-        f.write(u",".join(one_d_book_lsts) + '\n')
-    f.close()
+        # f.write(u",".join(one_d_book_lsts) + '\n')
+    # f.close()
 
     return dictionary, books_lst_filep
 
