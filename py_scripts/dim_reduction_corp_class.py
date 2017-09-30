@@ -10,7 +10,7 @@ import numpy as np
 import nltk
 
 from nltk.corpus import stopwords
-#nltk.download('stopwords')
+nltk.download('stopwords')
 #^should I include download of nltk stopwords in my vagrant configuration?
 
 
