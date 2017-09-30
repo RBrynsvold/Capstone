@@ -95,7 +95,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     Create and save gensim objects needed for lda model (corpus, dictionary).
     '''
     fileid_lst = get_fileid_lst(source_dir)
-    books_lst_filep = outputs_dir + distinguishing_str + '_lst.txt'
+    books_lst_filep = '../..' + distinguishing_str + '_lst.txt'
 
     print "starting iteration thru corpus"
     print "************************************************"
