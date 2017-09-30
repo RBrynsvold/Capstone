@@ -162,6 +162,23 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
 
     return dictionary, books_lst_filep
 
+def merge_dicts(dicts_count, distinguishing_str, outputs_dir):
+    '''
+    Merge dictionaries together that have been created from a previous pass
+    '''
+    from gensim import corpora
+
+    final_dict = corpora.dictionary.Dictionary()
+    for n in range(dicts_count + 1):
+        loaded_dict = corpora.dictionary.Dictionary.load('../outputs/tmp_dicts/' + str(n) + '.dict')
+        final_dict.merge_with(loaded_dict)
+        print "dictionary", n, "loaded & merged"
+
+    print "merged all the dictionaries"
+    corpora = create_corp(final_dict, '../'+distinguishing_str+'_lst.txt', '')
+    print "created the corpora"
+    save_stuff(distinguishing_str, final_dict, corpora, outputs_dir)
+    print "saved everything"
 
 def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
     '''
@@ -172,7 +189,7 @@ def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
     d_tmp.add_documents(tmp_books_lst)
     d_tmp.save(dicts_fp + str(dicts_count) + '.dict')
 
-    print "added ", len(d_tmp), " to temp dictionary"
+    print "added", len(d_tmp), "to temp dictionary", dicts_count
 
     if final_merge == 'y':
         final_dict = d_tmp #corpora.dictionary.Dictionary()
@@ -266,11 +283,17 @@ if __name__=='__main__':
     use_full_data = raw_input("Will you be using the full data set (y/n)?: ")
     distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
+    outputs_dir = '../outputs' + '/' # same both ways
+
     #relative filepaths
     if use_full_data == 'n':
         source_dir  = '../books/clean' + '/' #for 95-book practice data
     elif use_full_data == 'y':
         source_dir = '../../clean_books' + '/'  #for full data set
+    elif use_full_data == 'merge':
+        source_dir = 'skipping the source, yo!'
+        dict_count = raw_input("How many dictionaries to merge?: ")
+        merge_dicts(int(dict_count), distinguishing_str, outputs_dir)
     else:
         source_dir = 'invalid file path to raise error'
         print "please rerun and enter either 'y' or 'n' "
@@ -278,9 +301,8 @@ if __name__=='__main__':
     print "Data source to be used: ", source_dir
     print "************************************************"
 
-    outputs_dir = '../outputs' + '/' # same both ways
-
-    create_save_objs(source_dir, outputs_dir, distinguishing_str)
+    if use_full_data != 'merge':
+        create_save_objs(source_dir, outputs_dir, distinguishing_str)
 
     ##Backup: hardcoded dir options
     #source_dir = '/home/ubuntu/data_download/clean_books/'
