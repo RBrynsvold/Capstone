@@ -6,12 +6,17 @@
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  All of the remaining steps are to be performed inside your rambo vm.
 
-2. Clone this repo at the root level of your vm 
-(run git clone https://github.com/RBrynsvold/Capstone.git from /home/vagrant)
-3. Execute the bash script that will run a wget command to pull the cleaned data from the mirror repo 
-  bash /home/vagrant/Capstone/bash_scripts/wget_download_from_mirror.sh
-4. Execute the dimensional reduction script
-  python /home/vagrant/Capstone/bash_scripts/dim_reduction_corp_class.py
+3. Clone this repo at the root level of your vm (/home/vagrant)
+
+        ```git clone https://github.com/RBrynsvold/Capstone.git /home/vagrant```
+        
+4. Download the cleaned data from the public mirror repo
+
+        ```bash /home/vagrant/Capstone/bash_scripts/wget_download_from_mirror.sh```
+        
+5. Execute the dimensional reduction script
+        ```python /home/vagrant/Capstone/bash_scripts/dim_reduction_corp_class.py```
+  
   **Rachel's self-reminder note - change script name for final**
 5. Execute the lda fitting script
 6. Inspect the results of your fitted model inside a jupyter notebook!
