@@ -1,0 +1,13 @@
+successfully copied (synced) all files from manual ec2 to rambo mirror box
+
+rsync -azvv -e "ssh -i ~/aws.pem" /home/ubuntu/data_download/ vagrant@ec2-54-187-164-38.us-west-2.compute.amazonaws.com:/home/vagrant/data
+
+
+unsuccessful:
+
+rsync -azvv -e "ssh -i ~/aws.pem" vagrant@ec2-54-187-164-38.us-west-2.compute.amazonaws.com:/home/vagrant/data/ /home/vagrant/data
+
+may want to take off the vv
+
+
+**also record scp of aws key from .ssh to rambo mirror
