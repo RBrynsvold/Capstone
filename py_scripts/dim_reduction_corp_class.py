@@ -105,14 +105,14 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     print "transformations and dictionary building complete"
     print "************************************************"
 
-    corpus = create_corp(dictionary, books_lst_filep, outputs_dir)
-
-    print "corpus complete"
-    print "************************************************"
+    # corpus = create_corp(dictionary, books_lst_filep, outputs_dir)
+    #
+    # print "corpus complete"
+    # print "************************************************"
 
     # avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid = dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus)
 
-    save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=corpus, outputs_dir=outputs_dir)
+    save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=None, outputs_dir=outputs_dir)
 
     print "Dimensional reduction complete!"
     print "After dimensional reduction:"
@@ -132,7 +132,8 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
     f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
     stop = set(stopwords.words('english'))
     onek_books_lst, dicts_count = [], 0
-    dicts_fp = outputs_dir + 'tmp_dicts/'
+    dicts_fp = ../ #+ 'tmp_dicts/'
+        #would be nice to mkdir for this
 
     for num, f_id in enumerate(fileid_lst):
         adj_num = num + 1
