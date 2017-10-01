@@ -1,1 +1,0 @@
-find . -name '*.txt' -exec mv {} /home/ubuntu/data_download/all_txt_files \;
