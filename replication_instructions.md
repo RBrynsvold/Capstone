@@ -1,7 +1,8 @@
 1. Clone nlp-research-box-rambo repo
+
 ```git clone https://github.com/terminal-labs/nlp-research-box-rambo.git```
 
-2. Follow the setup instructions there
+2. Follow the [setup instructions]() there
   This will produce the needed environment in a vm for this replication
 2. Clone this repo at the root level of your vm (run git clone https://github.com/RBrynsvold/Capstone.git from /home/vagrant)
 3. Execute the bash script that will run a wget command to pull the cleaned data from the mirror repo 
