@@ -17,7 +17,10 @@ class LDAMaker(object):
         Load up the dictionary (vocabulary) from file and the corpus as an object streamed from the dictionary
         '''
         dict_fp = self.rw_dir + self.distinguishing_str + '.dict'
-        corp_lst_fp = '../../' + self.distinguishing_str + '_lst.txt'
+        corp_lst_fp = self.rw_dir + self.distinguishing_str + '_lst.txt'
+
+        # dict_fp = self.rw_dir + self.distinguishing_str + '.dict'
+        # corp_lst_fp = '../../' + self.distinguishing_str + '_lst.txt'
 
         self.dictionary = corpora.Dictionary.load(dict_fp)
         self.corpus = CorpStreamer(self.dictionary, corp_lst_fp)
@@ -55,14 +58,13 @@ class CorpStreamer(object):
 
 
 if __name__=='__main__':
-#HARD-CODED relative filepaths
-        #should rewrite with a 'specify' function that prompts user?
-    rw_dir = '../outputs' + '/' # same both ways
 
     distinguishing_str = str(raw_input("Enter identifier string for the corpus and dictionary from which to build the model: "))
     num_topics = int(raw_input("Enter number of topics (integer) to use for model fitting: "))
     cores = int(raw_input("Enter number of cores on your machine: "))
-        #any way for this script to query the rambo/vagrant setup files to determine # of cores?
+        #future improvement: any way for this script to query the rambo/vagrant setup files to determine # of cores?
+    header = '../' + 'outputs-git_ignored/' #if problems move '/' down
+    rw_dir = header + distinguishing_str + '/'
 
     LDAmod = LDAMaker(rw_dir, distinguishing_str)
     LDAmod.load_stuff()

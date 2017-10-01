@@ -12,6 +12,8 @@ import nltk
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 #^should I include download of nltk stopwords in my vagrant configuration?
+#separate python script?
+#needs to be done the first time, but not every time (take est. 3-5s)
 
 
 class IterFile(object):
@@ -95,9 +97,9 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     Create and save gensim objects needed for lda model (corpus, dictionary).
     '''
     fileid_lst = get_fileid_lst(source_dir)
-    books_lst_filep = '../' + distinguishing_str + '_lst.txt'
+    books_lst_filep = outputs_dir + distinguishing_str + '_lst.txt'
 
-    print "starting iteration thru corpus"
+    print "starting iteration thru corpus on disk"
     print "************************************************"
 
     dictionary, books_lst_filep = process_books(fileid_lst, books_lst_filep, outputs_dir)
@@ -132,8 +134,11 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
     f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
     stop = set(stopwords.words('english'))
     onek_books_lst, dicts_count = [], 0
-    dicts_fp = '../outputs/tmp_dicts/'
-        #would be nice to mkdir for this, outside Capstone dir (so I don't sync huge files unnecessarily)
+
+    #setup directory to contain the numerous tmp_dicts output:
+    dicts_fp = outputs_dir + 'tmp_dicts' + '/'
+    print dicts_fp
+    os.makedirs(dicts_fp)
 
     for num, f_id in enumerate(fileid_lst):
         adj_num = num + 1
@@ -163,23 +168,24 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
 
     return dictionary, books_lst_filep
 
-def merge_dicts(dicts_count, distinguishing_str, outputs_dir):
+def merge_dicts(dicts_count, outputs_dir):
     '''
     Merge dictionaries together that have been created from a previous pass
     '''
     from gensim import corpora
+    dicts_fp = outputs_dir + 'tmp_dicts'
 
     final_dict = corpora.dictionary.Dictionary()
     for n in range(dicts_count + 1):
-        loaded_dict = corpora.dictionary.Dictionary.load('../outputs/tmp_dicts/' + str(n) + '.dict')
+        loaded_dict = corpora.dictionary.Dictionary.load('tmp_dict_' + str(n) + '.dict')
         final_dict.merge_with(loaded_dict)
         print "dictionary", n, "loaded & merged"
 
     print "merged all the dictionaries"
-    corpora = create_corp(final_dict, '../'+distinguishing_str+'_lst.txt', '')
-    print "created the corpora"
-    save_stuff(distinguishing_str, final_dict, corpora, outputs_dir)
-    print "saved everything"
+    # corp_lst = create_corp(final_dict, '../'+distinguishing_str+'_lst.txt', '')
+    # print "created the corpora"
+    # save_stuff(distinguishing_str, final_dict, corp_lst, corpus=None, outputs_dir)
+    # print "saved everything"
 
 def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
     '''
@@ -240,11 +246,7 @@ def save_stuff(distinguishing_str, dictionary, corpus, outputs_dir):
     '''
     Create directory and save the outputs of the desired object(s)
     '''
-##this does not work - no dir is being made - troubleshoot
     file_path = outputs_dir + distinguishing_str
-    # directory = os.path.dirname(file_path)
-    # if not os.path.exists(directory):
-    #     os.makedirs(directory)
 
     if dictionary != None:
         dictionary.save(file_path + '.dict')
@@ -280,11 +282,25 @@ def get_fileid_lst(source_dir):
 
 
 if __name__=='__main__':
-
+    #prompt user for needed info
     use_full_data = raw_input("Will you be using the full data set (y/n)?: ")
+    #^ this is super useful for development but should be removed for final reproducibility code
     distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
-    outputs_dir = '../outputs' + '/' # same both ways
+    #create outputs directory which will be on the gitignore
+        #reason: file sizes too large to be pushed to github - causes git problems if not excluded
+    rel = '../'
+    git_ignored_dir = rel + 'outputs-git_ignored'
+    if not os.path.exists(git_ignored_dir):
+        os.makedirs(git_ignored_dir)
+    #create a directory for all outputs and subsequent reads for this run
+        #reason: easy review of outputs... general sanity
+    run_specific_file_path = git_ignored_dir + '/' + distinguishing_str
+    if not os.path.exists(run_specific_file_path):
+        os.makedirs(run_specific_file_path)
+    else:
+        print "saw output dir already existing and ignored"
+    outputs_dir = run_specific_file_path + '/' #outputs_dir same both ways
 
     #relative filepaths
     if use_full_data == 'n':
@@ -294,7 +310,7 @@ if __name__=='__main__':
     elif use_full_data == 'merge':
         source_dir = 'skipping the source, yo!'
         dict_count = raw_input("How many dictionaries to merge?: ")
-        merge_dicts(int(dict_count), distinguishing_str, outputs_dir)
+        merge_dicts(int(dict_count), outputs_dir)
     else:
         source_dir = 'invalid file path to raise error'
         print "please rerun and enter either 'y' or 'n' "
