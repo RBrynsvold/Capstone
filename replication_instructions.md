@@ -1,5 +1,5 @@
 1. Clone nlp-research-box-rambo repo
-  > git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
+```git clone https://github.com/terminal-labs/nlp-research-box-rambo.git```
 
 2. Follow the setup instructions there
   This will produce the needed environment in a vm for this replication
