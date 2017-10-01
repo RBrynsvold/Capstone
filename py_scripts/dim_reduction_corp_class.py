@@ -132,7 +132,7 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
     f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
     stop = set(stopwords.words('english'))
     onek_books_lst, dicts_count = [], 0
-    dicts_fp = ../ + 'tmp_dicts/'
+    dicts_fp = '../outputs/tmp_dicts/'
         #would be nice to mkdir for this, outside Capstone dir (so I don't sync huge files unnecessarily)
 
     for num, f_id in enumerate(fileid_lst):
