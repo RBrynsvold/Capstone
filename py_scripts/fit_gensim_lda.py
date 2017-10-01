@@ -71,6 +71,7 @@ if __name__=='__main__':
 
     print "model fitting beginning - this may take a while"
     LDAmod.fit_lda(num_topics)
+    #look into adding that logging thing so I can tell what's going on
 
     LDAmod.save_lda()
     print "model fitted and saved!"
