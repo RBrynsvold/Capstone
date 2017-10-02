@@ -6,9 +6,11 @@
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  All of the remaining steps are to be performed inside your rambo vm.
 
-3. Clone this repo at the root level of your vm (/home/vagrant)
+3. Clone or fork this repo at the root level of your vm (/home/vagrant)
 
         git clone https://github.com/RBrynsvold/Capstone.git /home/vagrant
+        
+   _Clone if you want to reproduce the work, fork if you want to do some coding of your own and further explore this data set!_
         
 4. Download the cleaned data from the public mirror repo
 
@@ -17,7 +19,7 @@
 5. Execute the dimensional reduction script
 
         python /home/vagrant/Capstone/py_scripts/dim_reduction_corp_class.py
-   **Rachel's self-reminder note - change script name for final**
+   **REMINDER - change script name for final**
    
 5. Execute the lda modeling script
 
