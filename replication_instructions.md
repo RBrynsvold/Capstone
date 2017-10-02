@@ -39,11 +39,11 @@
    You will be prompted for the following information:
    
       * The identifier string for the corpus and dictionary from which to build the model   
-        __This string must match exactly the string given in step 5!__
+           __This string must match exactly the string given in step 5!__
       * Number of topics to use for model fitting   
-        __In this project I determined the optimal number of topics to be NUMBERISTBD__
+           __In this project I determined the optimal number of topics to be NUMBERISTBD__
       * Number of cores on your machine   
-        If greater than 1, the model will be run multithreaded
+           If greater than 1, the model will be run multithreaded
         
    Depending on the details of your vm, this step will take at least a few hours.
 
@@ -51,12 +51,11 @@
 
    Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
    
-   * Determine your public IP address ('IPv4 Public IP'). 
-      
-      For an AWS EC2, you can find this by viewing it on your EC2 Management Console
-   * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'
+   * Determine your public IP address ('IPv4 Public IP').   
+        For an AWS EC2, you can find this by viewing it on your EC2 Management Console
+   * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'   
    
-      <yourIPv4PublicIP>:8080
+        <yourIPv4PublicIP>:8080
       
    * Enter 'admin' in the password field
    * Navigate into the Capstone/notebooks directory
