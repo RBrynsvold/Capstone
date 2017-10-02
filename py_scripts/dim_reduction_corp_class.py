@@ -307,6 +307,8 @@ if __name__=='__main__':
         which_partial = int(raw_input("What is the subset size?" ))
         if which_partial == 5000:
             source_dir = '../../5000_books' + '/'
+        elif which_partial == 2500:
+            source_dir = '../../2500_books' + '/'
         elif which_partial == 1000:
             source_dir = '../../1000_books' + '/'
         elif which_partial == 95:
