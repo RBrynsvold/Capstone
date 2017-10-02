@@ -39,10 +39,27 @@
 
                 python fit_gensim_lda.py
 
+   You will be prompted for the following information:
+   
+      * The identifier string for the corpus and dictionary from which to build the model
+        __This string must match exactly the string given in step 5!__
+      * Number of topics to use for model fitting
+        __In this project I determined the optimal number of topics to be NUMBERISTBD__
+      * Number of cores on your machine
+        If greater than 1, the model will be run multithreaded
+        
+   Depending on the details of your vm, this step will take several hours at least.
 
 7. Inspect the results of your fitted model inside a jupyter notebook!
 
    Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
    
-   * Determine your public ip address (IPv4) by viewing it on your aws EC2 consol
-   **to be added: the rest of the jupyter tunneling instructons**
+   * Determine your public IP address ('IPv4 Public IP') by viewing it on your aws EC2 console
+   * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'
+   
+      <yourIPv4PublicIP>:8080
+      
+   * Enter 'admin' in the password field
+   * Navigate into the Capstone/notebooks directory
+   * Open the 'load_inspect_model.ipynb' notebook
+   * Execute the cells in order and make your own conclusions!
