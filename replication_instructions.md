@@ -55,7 +55,7 @@
         For an AWS EC2, you can find this by viewing it on your EC2 Management Console
    * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'   
    
-        <yourIPv4PublicIP>:8080
+        _yourIPv4PublicIP_:8080
       
    * Enter 'admin' in the password field
    * Navigate into the Capstone/notebooks directory
