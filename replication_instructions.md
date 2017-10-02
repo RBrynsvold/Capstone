@@ -18,24 +18,24 @@
         
 5. Execute the dimensional reduction script
 
-   For this step you must enter the Capstone directory:
+   For this step you must enter the Capstone/py_scripts directory:
    
-        cd /home/vagrant/Capstone
+        cd /home/vagrant/Capstone/py_scripts
      
    Then you can run the script:
 
-        python /home/vagrant/Capstone/py_scripts/dim_reduction_corp_class.py
+        python dim_reduction_corp_class.py
    **REMINDER - change script name for final**
    
    Note: you will be prompted to provide an identifier string for your run.
    
-5. Execute the lda modeling script
+5. Execute the lda modeling script (also from the py_scripts directory)
 
-        python /home/vagrant/Capstone/py_scripts/fit_gensim_lda.py
+        python fit_gensim_lda.py
         
 6. Inspect the results of your fitted model inside a jupyter notebook!
 
-   Your rambo vm should be setup for to easily tunnel in with a jupyter notebook, run on your computer.  Steps:
+   Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
    
-   * Determine your public ip address (IPv4)
-   **to be added: the jupyter tunneling instructons**
+   * Determine your public ip address (IPv4) by viewing it on your aws EC2 consol
+   **to be added: the rest of the jupyter tunneling instructons**
