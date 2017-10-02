@@ -4,6 +4,17 @@ from gensim import corpora
 from gensim.models import ldamodel
 from gensim.models import LdaMulticore
 
+import logging
+import itertools
+
+logging.basicConfig(format='%(levelname)s : %(message)s', level=logging.INFO)
+logging.root.level = logging.INFO  # ipython sometimes messes up the logging setup; restore
+
+def head(stream, n=10):
+    """Convenience fnc: return the first `n` elements of the stream, as plain list."""
+    return list(itertools.islice(stream, n))
+
+
 class LDAMaker(object):
     '''
     Contains everything to fit an LDA model
@@ -31,10 +42,11 @@ class LDAMaker(object):
         '''
         if cores == 1:
             print "running single core"
-            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, passes=20)
+            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, passes=1) #passes=20)
         else:
+            w = cores-1
             print "running multi-core"
-            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, passes=20, workers=cores-1)
+            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, passes=1, workers=w) #passes=20
 
     def save_lda(self):
         '''
