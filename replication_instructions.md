@@ -1,11 +1,63 @@
-1. Clone nlp-research-box-rambo (https://github.com/terminal-labs/nlp-research-box-rambo) and follow the setup instructions there 
-  This will produce the needed environment in a vm for this replication
-2. Clone this repo at the root level of your vm (run git clone https://github.com/RBrynsvold/Capstone.git from /home/vagrant)
-3. Execute the bash script that will run a wget command to pull the cleaned data from the mirror repo 
-  bash /home/vagrant/Capstone/bash_scripts/wget_download_from_mirror.sh
-4. Execute the dimensional reduction script
-  python /home/vagrant/Capstone/bash_scripts/dim_reduction_corp_class.py
-  **Rachel's self-reminder note - change script name for final**
-5. Execute the lda fitting script
-6. Inspect the results of your fitted model inside a jupyter notebook!
-   **to be added: the jupyter tunneling instructons**
+1. Clone the nlp-research-box-rambo repo
+               
+               git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
+
+2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there. **Need to include some minimum HW specs when I know them**   
+
+   This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  Steps 3-6 are to be performed inside your rambo vm.
+
+3. Clone or fork this repo on your vm at /home/vagrant (note this is the default working directory when you ssh in)
+
+                git clone https://github.com/RBrynsvold/Capstone.git
+        
+   _Clone if you want to reproduce the work, fork if you want to do some coding of your own and further explore this data set!_
+
+
+4. Download the cleaned data from the public mirror repo
+
+                bash /home/vagrant/Capstone/bash_scripts/wget_download_from_mirror.sh
+ 
+ 
+5. Execute the dimensional reduction script
+
+   For this step you must enter the Capstone/py_scripts directory:
+   
+                cd /home/vagrant/Capstone/py_scripts
+     
+   Then you can run the script:
+
+                python dim_reduction_corp_class.py
+   **REMINDER - change script name for final**
+   
+   Note: you will be prompted to provide an identifier string for your run.
+
+
+6. Execute the lda modeling script (also from the py_scripts directory)
+
+                python fit_gensim_lda.py
+
+   You will be prompted for the following information:
+   
+      * The identifier string for the corpus and dictionary from which to build the model   
+           __This string must match exactly the string given in step 5!__
+      * Number of topics to use for model fitting   
+           __In this project I determined the optimal number of topics to be NUMBERISTBD__
+      * Number of cores on your machine   
+           If greater than 1, the model will be run multithreaded
+        
+   Depending on the details of your vm, this step will take at least a few hours.
+
+7. Inspect the results of your fitted model inside a jupyter notebook!
+
+   Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
+   
+   * Determine your public IP address ('IPv4 Public IP').   
+        For an AWS EC2, you can find this by viewing it on your EC2 Management Console
+   * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'   
+   
+        _yourIPv4PublicIP_:8080
+      
+   * Enter 'admin' in the password field
+   * Navigate into the Capstone/notebooks directory
+   * Open the 'load_inspect_model.ipynb' notebook
+   * Execute the cells in order and do your own investigation of the results!
