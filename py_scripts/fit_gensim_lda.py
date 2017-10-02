@@ -25,13 +25,15 @@ class LDAMaker(object):
         self.dictionary = corpora.Dictionary.load(dict_fp)
         self.corpus = CorpStreamer(self.dictionary, corp_lst_fp)
 
-    def fit_lda(self, num_topics):
+    def fit_lda(self, num_topics, cores):
         '''
         Fits lda model with given number of topics using the loaded corpus and dictionary
         '''
         if cores == 1:
+            print "running single core"
             self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, passes=20)
         else:
+            print "running multi-core"
             self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, passes=20, workers=cores-1)
 
     def save_lda(self):
@@ -70,7 +72,7 @@ if __name__=='__main__':
     LDAmod.load_stuff()
 
     print "model fitting beginning - this may take a while"
-    LDAmod.fit_lda(num_topics)
+    LDAmod.fit_lda(num_topics, cores)
     #look into adding that logging thing so I can tell what's going on
 
     LDAmod.save_lda()

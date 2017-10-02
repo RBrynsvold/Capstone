@@ -117,7 +117,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=None, outputs_dir=outputs_dir)
 
     print "Dimensional reduction complete!"
-    print "After dimensional reduction:"
+    #print "After dimensional reduction:"
     print "   "
     # print "Average total tokens per book:        ", avg_num_tokens
     # print "Average unique tokens per book:       ", avg_unique_toks
