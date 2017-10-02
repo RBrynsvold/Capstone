@@ -22,6 +22,9 @@ class LDAMaker(object):
     def __init__(self, rw_dir, distinguishing_str):
         self.rw_dir = rw_dir
         self.distinguishing_str = distinguishing_str
+        self.lda_fp = self.rw_dir + self.distinguishing_str + '.model'
+        self.iteration = 0
+        self.corp_chunk = "initial"
 
     def load_stuff(self):
         '''
@@ -36,26 +39,50 @@ class LDAMaker(object):
         self.dictionary = corpora.Dictionary.load(dict_fp)
         self.corpus = CorpStreamer(self.dictionary, corp_lst_fp)
 
-    def fit_lda(self, num_topics, cores):
+    def _yield_corp_subset(self, corp_chunk_size):
         '''
-        Fits lda model with given number of topics using the loaded corpus and dictionary
+        Hack corpus generator to deliver chunks of corpus of specified size
+        '''
+        self.corp_chunk = []
+        for _ in range(corp_chunk_size):
+            self.corp_chunk.extend(self.corpus)
+        self.iteration += 1
+        print "corpus chunk", self.iteration
+
+    def update_lda(self, corp_chunk_size):
+        '''
+        Updates partial LDA model with latest chunk of the corpus
+        '''
+
+        if cores == 1:
+            self.lda = ldamodel.LdaModel.load(self.lda_fp)
+        else:
+            self.lda = LdaMulticore.load(self.lda_fp)
+
+        self._yield_corp_subset(corp_chunk_size)
+        self.lda.update(self.corp_chunk)
+
+        self._save_lda()
+
+    def initialize_lda(self, num_topics, cores):
+        '''
+        Initializes lda model with given number of topics using the loaded corpus and dictionary
         '''
         if cores == 1:
             print "running single core"
-            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, passes=1) #passes=20)
+            self.lda = ldamodel.LdaModel(corpus=None, alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, passes=1) #passes=20)
         else:
             w = cores-1
             print "running multi-core"
-            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, passes=1, workers=w) #passes=20
+            self.lda = LdaMulticore(corpus=None, id2word=self.dictionary, num_topics=num_topics, passes=1, workers=w) #passes=20
 
-        print type(self.lda)
+        self._save_lda()
 
-    def save_lda(self):
+    def _save_lda(self):
         '''
         Saves fitted lda model out to disk
         '''
-        lda_fp = self.rw_dir + self.distinguishing_str + '.model'
-        self.lda.save(lda_fp)
+        self.lda.save(self.lda_fp)
 
 
 class CorpStreamer(object):
@@ -77,6 +104,7 @@ if __name__=='__main__':
 
     distinguishing_str = str(raw_input("Enter identifier string for the corpus and dictionary from which to build the model: "))
     num_topics = int(raw_input("Enter number of topics (integer) to use for model fitting: "))
+    corp_chunk_size = int(raw_input("Enter number of documents to be fitted at a time ('corpus chunk size'): "))
     cores = int(raw_input("Enter number of cores on your machine: "))
         #future improvement: any way for this script to query the rambo/vagrant setup files to determine # of cores?
     header = '../' + 'outputs-git_ignored/' #if problems move '/' down
@@ -84,10 +112,11 @@ if __name__=='__main__':
 
     LDAmod = LDAMaker(rw_dir, distinguishing_str)
     LDAmod.load_stuff()
+    LDAmod.initialize_lda(num_topics, cores)
 
     print "model fitting beginning - this may take a while"
-    LDAmod.fit_lda(num_topics, cores)
-    #look into adding that logging thing so I can tell what's going on
+    while LDAmod.corp_chunk != []:
+        LDAmod.update_lda(corp_chunk_size)
 
-    LDAmod.save_lda()
+    #LDAmod.save_lda()
     print "model fitted and saved!"
