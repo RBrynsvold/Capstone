@@ -18,8 +18,16 @@
         
 5. Execute the dimensional reduction script
 
+   For this step you must enter the Capstone directory:
+   
+        cd /home/vagrant/Capstone
+     
+   Then you can run the script:
+
         python /home/vagrant/Capstone/py_scripts/dim_reduction_corp_class.py
    **REMINDER - change script name for final**
+   
+   Note: you will be prompted to provide an identifier string for your run.
    
 5. Execute the lda modeling script
 
