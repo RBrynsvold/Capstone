@@ -6,9 +6,9 @@
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  All of the remaining steps are to be performed inside your rambo vm.
 
-3. Clone or fork this repo at the root level of your vm (/home/vagrant)
+3. Clone or fork this repo on your vm at /home/vagrant (note this is the default working directory when you ssh in)
 
-        git clone https://github.com/RBrynsvold/Capstone.git /home/vagrant
+        git clone https://github.com/RBrynsvold/Capstone.git
         
    _Clone if you want to reproduce the work, fork if you want to do some coding of your own and further explore this data set!_
         
