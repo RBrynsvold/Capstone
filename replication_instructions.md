@@ -2,13 +2,11 @@
                
                git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
 
-
 2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there.
 
-  **Need to include some minimum HW specs when I know them**
+  **Need to include some minimum HW specs when I know them**   
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  Steps 3-6 are to be performed inside your rambo vm.
-
 
 3. Clone or fork this repo on your vm at /home/vagrant (note this is the default working directory when you ssh in)
 
