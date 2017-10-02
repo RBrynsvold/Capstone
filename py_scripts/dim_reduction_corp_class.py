@@ -305,10 +305,10 @@ if __name__=='__main__':
     #relative filepaths
     if use_full_data == 'n':
         which_partial = raw_input("What is the subset size?")
-            if which_partial == 1000:
-                source_dir = '../../1000_books' + '/'
-            elif which_partial == 95:
-                source_dir  = '../books/clean' + '/' #for 95-book practice data
+        if which_partial == 1000:
+            source_dir = '../../1000_books' + '/'
+        elif which_partial == 95:
+            source_dir  = '../books/clean' + '/' #for 95-book practice data
     elif use_full_data == 'y':
         source_dir = '../../clean_books' + '/'  #for full data set
     elif use_full_data == 'merge':
