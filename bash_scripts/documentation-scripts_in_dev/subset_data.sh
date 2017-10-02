@@ -1,1 +1,1 @@
-find . -maxdepth 1 -type f |head -1000|xargs cp -t "$destdir"
+find . -maxdepth 1 -type f |head -5000|xargs cp -t "/home/vagrant/5000_books"

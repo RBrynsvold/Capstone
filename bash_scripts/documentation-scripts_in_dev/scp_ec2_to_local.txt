@@ -1,0 +1,3 @@
+scp -i "aws.pem" -r vagrant@54.187.41.79:/home/vagrant/Capstone/outputs-git_ignored/5000_books /Users/rachelbrynsvold/dsi/capstone_dir/Capstone/outputs-git_ignored/
+
+executed from local at ~/.ssh dir
