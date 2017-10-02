@@ -3,8 +3,9 @@
                git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
 
 
-
 2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there.
+
+  **Need to include some minimum HW specs when I know them**
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  Steps 3-6 are to be performed inside your rambo vm.
 
@@ -41,20 +42,22 @@
 
    You will be prompted for the following information:
    
-      * The identifier string for the corpus and dictionary from which to build the model
+      * The identifier string for the corpus and dictionary from which to build the model   
         __This string must match exactly the string given in step 5!__
-      * Number of topics to use for model fitting
+      * Number of topics to use for model fitting   
         __In this project I determined the optimal number of topics to be NUMBERISTBD__
-      * Number of cores on your machine
+      * Number of cores on your machine   
         If greater than 1, the model will be run multithreaded
         
-   Depending on the details of your vm, this step will take several hours at least.
+   Depending on the details of your vm, this step will take at least a few hours.
 
 7. Inspect the results of your fitted model inside a jupyter notebook!
 
    Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
    
-   * Determine your public IP address ('IPv4 Public IP') by viewing it on your aws EC2 console
+   * Determine your public IP address ('IPv4 Public IP'). 
+      
+      For an AWS EC2, you can find this by viewing it on your EC2 Management Console
    * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'
    
       <yourIPv4PublicIP>:8080
@@ -62,4 +65,4 @@
    * Enter 'admin' in the password field
    * Navigate into the Capstone/notebooks directory
    * Open the 'load_inspect_model.ipynb' notebook
-   * Execute the cells in order and make your own conclusions!
+   * Execute the cells in order and do your own investigation of the results!
