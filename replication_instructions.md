@@ -4,7 +4,7 @@
 
 2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there.
 
-   This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  All of the remaining steps are to be performed inside your rambo vm.
+   This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  Steps 3-5 are to be performed inside your rambo vm.
 
 3. Clone or fork this repo on your vm at /home/vagrant (note this is the default working directory when you ssh in)
 
@@ -26,4 +26,8 @@
         python /home/vagrant/Capstone/py_scripts/fit_gensim_lda.py
         
 6. Inspect the results of your fitted model inside a jupyter notebook!
+
+   Your rambo vm should be setup for to easily tunnel in with a jupyter notebook, run on your computer.  Steps:
+   
+   * Determine your public ip address (IPv4)
    **to be added: the jupyter tunneling instructons**
