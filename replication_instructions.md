@@ -1,6 +1,6 @@
 1. Clone the nlp-research-box-rambo repo
-
-                git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
+               
+               git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
 
 
 
