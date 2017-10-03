@@ -42,11 +42,11 @@ class LDAMaker(object):
         '''
         if cores == 1:
             print "running single core"
-            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, chunksize=200, passes=passes)
+            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, chunksize=2000, passes=passes)
         else:
             w = cores-1
             print "running multi-core"
-            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, chunksize=200, passes=passes, workers=w) #passes=20
+            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, chunksize=2000, passes=passes, workers=w) #passes=20
 
         print type(self.lda)
 
