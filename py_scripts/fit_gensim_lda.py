@@ -42,11 +42,11 @@ class LDAMaker(object):
         '''
         if cores == 1:
             print "running single core"
-            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, passes=passes)
+            self.lda = ldamodel.LdaModel(corpus=self.corpus,alpha='auto', id2word=self.dictionary, num_topics=num_topics, update_every=0, chunksize=200, passes=passes)
         else:
             w = cores-1
             print "running multi-core"
-            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, passes=passes, workers=w) #passes=20
+            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=num_topics, chunksize=200, passes=passes, workers=w) #passes=20
 
         print type(self.lda)
 
@@ -80,6 +80,7 @@ if __name__=='__main__':
     passes = int(raw_input("Enter the number of passes for fitting the model: "))
     cores = int(raw_input("Enter number of cores on your machine: "))
         #future improvement: any way for this script to query the rambo/vagrant setup files to determine # of cores?
+    #should change back to source_dir and outputs_dir, so I can save the new elsewhere (multiple models from same dim red)
     header = '../' + 'outputs-git_ignored/' #if problems move '/' down
     rw_dir = header + distinguishing_str + '/'
 
@@ -92,3 +93,5 @@ if __name__=='__main__':
 
     LDAmod.save_lda()
     print "model fitted and saved!"
+
+    #probably should have script make a subdir for multiple models from the same dim reduction
