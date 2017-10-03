@@ -1,3 +1,14 @@
+#This script copied from https://gist.github.com/andreasvc/b3b4189120d84dec8857
+#Use for this repo:
+    #Before first time use, run the script:
+        #python metadata_extraction
+    #Import and call it in a script or notebook like so:
+        #from metadata_extraction import readmetadata
+        #metadata = readmetadata()
+        #note that it will take a couple of minutes to run.
+    #The resulting metadata object is a dictionary of dictionaries that can be indexed as shown in the docstring below.
+
+
 """Extract metadata from Project Gutenberg RDF catalog into a Python dict.
 Based on https://bitbucket.org/c-w/gutenberg/
 >>> md = readmetadata()

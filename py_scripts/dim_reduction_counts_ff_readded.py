@@ -8,6 +8,7 @@ from nltk.corpus.reader.plaintext import PlaintextCorpusReader
 import pandas as pd
 import numpy as np
 import nltk
+import json
 
 from nltk.corpus import stopwords
 nltk.download('stopwords')
@@ -20,9 +21,12 @@ class IterFile(object):
     '''
     File i/o and iteration utility
     '''
-    def __init__(self, fname, root):
-        self.filepath = root + fname
-        self.file = codecs.open(self.filepath, 'r', encoding='utf_8')
+    def __init__(self, fname, root, mode='r', full_fp=None):
+        if full_fp == None:
+            self.filepath = root + fname
+        else:
+            self.filepath = full_fp
+        self.file = codecs.open(self.filepath, mode, encoding='utf_8')
 
     def __iter__(self):
         '''
@@ -33,6 +37,9 @@ class IterFile(object):
                 yield line
         except UnicodeDecodeError:
             print "unicode error caught"
+
+    def write(self, line):
+        self.file.write(line)
 
     def close(self):
         '''
@@ -49,7 +56,8 @@ class BookUtil(object):
     def __init__(self, fname, root, stop):
         self.iter_book = IterFile(fname, root)
         self.dictionary = corpora.dictionary.Dictionary()
-        self.book_as_lst = []
+        self.transf_book_as_lst = []
+        self.tok_book_as_lst =[]
         self.stop = stop
 
     def _empty_line_check(self, line) :
@@ -67,7 +75,6 @@ class BookUtil(object):
         convert to list
         strip punctuation, lowercase
         '''
-        print "tokenizing that line yo"
         return [tok.lower().strip(punctuation) for tok in line.strip('\n').split()]
 
     def _remove_stop_words(self, line):
@@ -78,21 +85,31 @@ class BookUtil(object):
 
     def transform(self):
         '''
-        Call other class methods to
+        Call other class methods to perform document transformations.
+        Record numerical counts for transformation analysis
         '''
+        self.tok_book_as_lst, self.transf_book_as_lst = [], []
+
         for num, line in enumerate(self.iter_book):
             if self._empty_line_check(line) == False:
                 line = self._basic_tokenize(line)
+                self.tok_book_as_lst.extend(line)
                 line = self._remove_stop_words(line)
-                self.book_as_lst.append(line)
-        #self.dictionary.add_documents(self.book_as_lst)
+                self.transf_book_as_lst.extend(line)
+
+        #calc and assign counts at end of book
+        self.tokenized_word_count = len(self.tok_book_as_lst)
+        self.tokenized_unique = len(set(self.tok_book_as_lst))
+        self.transf_word_count = len(self.transf_book_as_lst)
+        self.transf_unique = len(set(self.transf_book_as_lst))
 
         print self.iter_book.filepath, "has been processed"
 
         self.iter_book.close()
 
 
-def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y', min_freq=1):
+def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y', min_freq=5):
+    #Note sure this function is really useful... need to eliminate in rewrite
     '''
     Call all subfunctions.
     Create and save gensim objects needed for lda model (corpus, dictionary).
@@ -103,22 +120,15 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     print "starting iteration thru corpus on disk"
     print "************************************************"
 
-    dictionary, books_lst_filep = process_books(fileid_lst, books_lst_filep, outputs_dir)
+    dictionary, books_lst_filep, counts_dict = process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq=min_freq)
 
     print "transformations and dictionary building complete"
     print "************************************************"
 
-    # corpus = create_corp(dictionary, books_lst_filep, outputs_dir)
-    #
-    # print "corpus complete"
-    # print "************************************************"
-
-    # avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid = dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus)
-
-    save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=None, outputs_dir=outputs_dir)
+    save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=None, counts_dict=counts_dict, outputs_dir=outputs_dir)
 
     print "Dimensional reduction complete!"
-    #print "After dimensional reduction:"
+    print "After dimensional reduction:"
     print "   "
     # print "Average total tokens per book:        ", avg_num_tokens
     # print "Average unique tokens per book:       ", avg_unique_toks
@@ -127,11 +137,13 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     # return avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid
     #need to write dimensionality reduction stuff to file for review
 
-def process_books(fileid_lst, books_lst_filep, outputs_dir):
+def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
+    #Should probably rewrite as class obj....
     '''
     Iterate thru all books and create a dictionary.
     Save each 'book-as-list' to a file, to use later to create the corpus.
     '''
+    #should change to IterFile object... for class rewrite, this obj can then be shared by freq filtering utility
     f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
     stop = set(stopwords.words('english'))
     onek_books_lst, dicts_count = [], 0
@@ -141,14 +153,22 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
     print dicts_fp
     os.makedirs(dicts_fp)
 
+    tokenized_word_count_l, tokenized_unique_l = [], []
+    transf_word_count_l, transf_unique_l = [], []
+
     for num, f_id in enumerate(fileid_lst):
         adj_num = num + 1
 
         current_book = BookUtil(f_id, source_dir, stop)
         current_book.transform()
 
-        current_book_lst = current_book.book_as_lst
-        tmp_book_lst = [val for sublist in current_book_lst for val in sublist]
+        tokenized_word_count_l.append(current_book.tokenized_word_count)
+        tokenized_unique_l.append(current_book.tokenized_unique)
+        transf_word_count_l.append(current_book.transf_word_count)
+        transf_unique_l.append(current_book.transf_unique)
+
+        current_book_lst = current_book.transf_book_as_lst
+        tmp_book_lst = [val for val in current_book_lst]
 
         onek_books_lst.append(tmp_book_lst)
 
@@ -159,16 +179,35 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir):
 
         f.write(u",".join(tmp_book_lst) + '\n')
 ##ADD HERE: add identifying book information (book num) as the first entry of each line - can then query metadata against that later
+    f.close()
 
     dictionary = create_save_dicts(onek_books_lst, dicts_fp, dicts_count, final_merge="y")
 
-    print "returned dictionary is this size: ", len(dictionary)
+    tokenized_avg_words = int(sum(tokenized_word_count_l) / float(len(tokenized_word_count_l)))
+    tokenized_avg_unique = int(sum(tokenized_unique_l) / float(len(tokenized_unique_l)))
+    transf_avg_words = int(sum(transf_word_count_l) / float(len(transf_word_count_l)))
+    transf_avg_unique = int(sum(transf_unique_l) / float(len(transf_unique_l)))
 
-    f.close()
+    transf_total_vocab = len(dictionary)
+    tokenized_total_vocab = transf_total_vocab + len(stop)
+    #I realize this is kind of cheating, but it is definitionally true and saves a TON of comp time/resources
+
+    counts_dict = dict({'tokenized' : dict({'avg_words' : tokenized_avg_words, 'avg_unique' : tokenized_avg_unique, 'total_vocab' : tokenized_total_vocab}),  'tok_and_sw' : dict({'avg_words' : transf_avg_words, 'avg_unique' : transf_avg_unique, 'total_vocab' : transf_total_vocab})})
+
+    if min_freq != None:
+        dictionary, ff_word_count, ff_unique_count = frequency_filtering(dictionary, books_lst_filep, no_below=min_freq, no_above=0.40)
+
+        ff_total_vocab = len(dictionary)
+
+        counts_dict['freq_filtered'] = dict({'avg_words' : ff_word_count, 'avg_unique' : ff_unique_count, 'total_vocab' : ff_total_vocab})
+
+    print "returned dictionary is this size: ", transf_total_vocab
 
     print "returning the books list file path " + books_lst_filep
+    print "counts (for dev, unformatted):",  counts_dict
 
-    return dictionary, books_lst_filep
+    return dictionary, books_lst_filep, counts_dict
+
 
 def merge_dicts(dicts_count, outputs_dir):
     '''
@@ -184,10 +223,7 @@ def merge_dicts(dicts_count, outputs_dir):
         print "dictionary", n, "loaded & merged"
 
     print "merged all the dictionaries"
-    # corp_lst = create_corp(final_dict, '../'+distinguishing_str+'_lst.txt', '')
-    # print "created the corpora"
-    # save_stuff(distinguishing_str, final_dict, corp_lst, corpus=None, outputs_dir)
-    # print "saved everything"
+
 
 def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
     '''
@@ -208,43 +244,8 @@ def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
             print "dictionary", n, "loaded & merged"
         return final_dict
 
-def create_corp(dictionary, books_lst_filep, source_dir):
-    '''
-    Open big file of 'books-as-lists', stream it in, and use to create corpus.
-    '''
-    f = IterFile(books_lst_filep, '')
 
-    #print "the file ", f.file.name
-
-    corpus = [dictionary.doc2bow(book.strip('/n').split(',')) for book in f]
-
-    return corpus
-
-def dim_red_counts(fileid_lst, all_transf_books_lst, dictionary, corpus):
-    '''
-    Create all the counts used to show progress of dimensional reduction
-    '''
-    #note this only shows final - would need to adapt to show stepwise reduction
-    #will probably stick with the jupyter for that for now
-
-    #for viewing convenience (and used below)
-    toks_per_fileid = [(tup[0], len(tup[1])) for tup in zip(fileid_lst, all_transf_books_lst)]
-    #could actually do this better by redoing like it was done for the unique_toks stuff
-
-    avg_num_tokens = int(np.mean([pair[1] for pair in toks_per_fileid]))
-    #changed this from what I had in jn to avoid going thru full text again
-    #avg_num_tokens = int(np.mean([len(book) for book in all_transf_books_lst]))
-
-    unique_toks_num_lst = [len(book) for book in corpus]
-    avg_unique_toks = int(np.mean(unique_toks_num_lst))
-    unique_toks_per_fileid = zip(fileid_lst, unique_toks_num_lst)
-
-    dictionary_length = len(dictionary)
-
-    return avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid
-
-
-def save_stuff(distinguishing_str, dictionary, corpus, outputs_dir):
+def save_stuff(distinguishing_str, dictionary, corpus, counts_dict, outputs_dir):
     '''
     Create directory and save the outputs of the desired object(s)
     '''
@@ -260,17 +261,49 @@ def save_stuff(distinguishing_str, dictionary, corpus, outputs_dir):
     else:
         print "No corpus to save"
 
+    if counts_dict != None:
+        json.dump(counts_dict, open(file_path + '_json.txt','w'))
+    else:
+        print "No counts to save"
+
+
 
 ##THIS GOES TOO SLOW -
 #to add the freq filtering functionality back in (if time permits), need to do it like here: https://stackoverflow.com/questions/24688116/how-to-filter-out-words-with-low-tf-idf-in-a-corpus-with-gensim
-def frequency_filtering(book_as_lst, n):
+def frequency_filtering(dictionary, books_lst_filep, no_below=5, no_above=0.40):
     '''
-    Remove words that appear less than n times
+    Remove words that appear in less than 5 documents or more than 40 percent of documents
     '''
-    all_tokens_set = set(book_as_lst)
-    tokens_once = set(word for word in all_tokens_set if book_as_lst.count(word) <= n)
+    #This should probably be another class method of books utils
+    pass
 
-    return [word for word in book_as_lst if word not in tokens_once]
+    dictionary.filter_extremes(no_below=no_below, no_above=no_above)
+
+    #pull in the prev created corpus list file
+    transf_corp_f = IterFile(fname=None, root=None, mode='r', full_fp=books_lst_filep)
+
+    #create new corpus list file with frequency filtering (take out everything not in dict)
+    tmp_fp = books_lst_filep + '.tmp'
+    freq_filt_corp_f = IterFile(fname=None, root=None, mode='w', full_fp= tmp_fp)
+
+    ff_word_count_lst, ff_unique_count_lst = [], []
+    for num, book_line in enumerate(transf_corp_f):
+        filtered_line = [tok for tok in book_line.strip('/n').split(",") if tok in dictionary]
+
+        ff_word_count_lst.append(len(filtered_line))
+        ff_unique_count_lst.append(len(set(filtered_line)))
+
+        freq_filt_corp_f.write(u",".join(filtered_line) + '\n')
+        print "book", num, "frequency-filtered"
+
+    #make counts
+    ff_word_count = int(sum(ff_word_count_lst) / float(len(ff_word_count_lst)))
+    ff_unique_count = int(sum(ff_unique_count_lst) / float(len(ff_unique_count_lst)))
+
+    #replace first corp list file with the one we just built
+    os.rename(tmp_fp, books_lst_filep)
+
+    return dictionary, ff_word_count, ff_unique_count
 
 
 def get_fileid_lst(source_dir):
@@ -285,9 +318,9 @@ def get_fileid_lst(source_dir):
 
 if __name__=='__main__':
     #prompt user for needed info
+    distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
     use_full_data = raw_input("Will you be using the full data set (y/n)?: ")
     #^ this is super useful for development but should be removed for final reproducibility code
-    distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
     #create outputs directory which will be on the gitignore
         #reason: file sizes too large to be pushed to github - causes git problems if not excluded
@@ -304,9 +337,9 @@ if __name__=='__main__':
         print "saw output dir already existing and ignored"
     outputs_dir = run_specific_file_path + '/' #outputs_dir same both ways
 
-    #relative filepaths
+    #relative filepaths - various options for various corp sizes for dev
     if use_full_data == 'n':
-        which_partial = int(raw_input("What is the subset size?" ))
+        which_partial = int(raw_input("What is the subset size? " ))
         if which_partial == 5000:
             source_dir = '../../5000_books' + '/'
         elif which_partial == 10000:
@@ -319,6 +352,7 @@ if __name__=='__main__':
             source_dir  = '../books/clean' + '/' #for 95-book practice data
         else:
             print "That subset is not available here"
+
         print "end of source_dir assignment script, source_dir = ", source_dir
     elif use_full_data == 'y':
         source_dir = '../../clean_books' + '/'  #for full data set
