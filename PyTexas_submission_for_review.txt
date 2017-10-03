@@ -1,0 +1,8 @@
+Title
+Literary Analysis via NLP: Topic Modeling Project Gutenberg
+
+Elevator Pitch: I have created a topic model of the internet's largest collection of public domain literature!  C
+
+Description
+
+Notes
