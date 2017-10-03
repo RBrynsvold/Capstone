@@ -2,14 +2,14 @@ Title:
 Literary Analysis via NLP: Topic Modeling Project Gutenberg
 
 Elevator Pitch: 
-I have created a LDA topic model of the internet's largest collection of public domain literature.  Come learn about the data science behind the model, the computational infrastructure set up to support the calculations, and the insights to be gained from this investigation!
+I've created a LDA topic model of the internet's largest collection of public domain literature!  Come learn about the data science behind the model, the computational infrastructure set up to support the calculations, and the insights to be gained from this investigation!
 
 Description:
-Using a corpus harvested from Project Gutenberg, a large online repository of ebooks, this project will develop a topic model of these texts using Latent Dirichlet Allocation (LDA).
+Using a corpus harvested from Project Gutenberg, a large online repository of ebooks, this project developed a topic model of these texts using Latent Dirichlet Allocation (LDA).
 
-Through the use of this and other supporting NLP techniques, I have gained an understanding of the underlying topics that are shared amongst the collection of books, and use this information to analyze the relationships between them.
+Through the use of this and other NLP techniques, I have gained an understanding of the underlying topics that are shared amongst the collection of books, and used this information to analyze the relationships between them.
 
-A large focus of this project is the durability and reproducibility of the data science work.  Through a collaboration with Austin-based software consulting group Terminal Labs and their open-source Project Rambo, a stable, reproducible virtual environment
+A large focus of this project is the durability and reproducibility of the data science work.  Through a collaboration with Austin-based software consulting group Terminal Labs and their open-source Project Rambo, a virtual environment identical to that used in the original development can be automatically provisioned in a single script.  Come check out the talk, and then take the code home to play with!
 
 Notes:
-
+This talk would be a continuation on my Galvanize Data Science Capstone project
