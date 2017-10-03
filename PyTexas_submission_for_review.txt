@@ -1,8 +1,15 @@
-Title
+Title:
 Literary Analysis via NLP: Topic Modeling Project Gutenberg
 
-Elevator Pitch: I have created a topic model of the internet's largest collection of public domain literature!  C
+Elevator Pitch: 
+I have created a LDA topic model of the internet's largest collection of public domain literature.  Come learn about the data science behind the model, the computational infrastructure set up to support the calculations, and the insights to be gained from this investigation!
 
-Description
+Description:
+Using a corpus harvested from Project Gutenberg, a large online repository of ebooks, this project will develop a topic model of these texts using Latent Dirichlet Allocation (LDA).
 
-Notes
+Through the use of this and other supporting NLP techniques, I have gained an understanding of the underlying topics that are shared amongst the collection of books, and use this information to analyze the relationships between them.
+
+A large focus of this project is the durability and reproducibility of the data science work.  Through a collaboration with Austin-based software consulting group Terminal Labs and their open-source Project Rambo, a stable, reproducible virtual environment
+
+Notes:
+
