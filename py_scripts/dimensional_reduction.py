@@ -286,7 +286,7 @@ def save_stuff(distinguishing_str, dictionary, corpus, counts_dict, outputs_dir)
 
 ##THIS GOES TOO SLOW -
 #to add the freq filtering functionality back in (if time permits), need to do it like here: https://stackoverflow.com/questions/24688116/how-to-filter-out-words-with-low-tf-idf-in-a-corpus-with-gensim
-def frequency_filtering(dictionary, books_lst_filep, no_below=5, no_above=0.40):
+def frequency_filtering(dictionary, books_lst_filep, no_below=5, no_above=0.75):
     '''
     Remove words that appear in less than 5 documents or more than 40 percent of documents
     '''
