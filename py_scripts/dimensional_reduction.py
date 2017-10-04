@@ -131,6 +131,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=None, counts_dict=counts_dict, outputs_dir=outputs_dir)
 
     print "Dimensional reduction complete!"
+    print "Use", distinguishing_str, "as the identifier string for the model fitting script."
 
 
 def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
