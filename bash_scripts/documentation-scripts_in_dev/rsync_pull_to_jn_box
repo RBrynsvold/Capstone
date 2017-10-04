@@ -1,0 +1,1 @@
+rsync -avL -e "ssh -i aws.pem" <source ipv4>:/home/vagrant/Capstone/outputs-git_ignored/ /home/vagrant/outputs
