@@ -213,8 +213,8 @@ def get_book_title(f_id, metadata):
     '''
     Query metadata based on file id
     '''
-    #book_num = int(f_id.rstrip('.txt'))
-    book_num = f_id.rstrip('.txt')
+    book_num = int(f_id.rstrip('.txt'))
+    #book_num = f_id.rstrip('.txt')  # doesn't work b/c metadata index expects int
 
     try:
         title = metadata[book_num]['title']#.decode('utf-8')
