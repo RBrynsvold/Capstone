@@ -48,6 +48,7 @@ except ImportError:
 
 PICKLEFILE = '/tmp/md.pickle.gz'  # The Python dict produced by this module
 RDFFILES = '/tmp/rdf-files.tar.bz2'  # The catalog downloaded from Gutenberg
+RDFURL2 = r'http://gutenberg.readingroo.ms/cache/generated/feeds/rdf-files.tar.bz2'
 RDFURL = r'http://www.gutenberg.org/cache/epub/feeds/rdf-files.tar.bz2'
 META_FIELDS = ('id', 'author', 'title', 'downloads', 'formats', 'type', 'LCC',
 		'subjects', 'authoryearofbirth', 'authoryearofdeath', 'language')
@@ -107,7 +108,7 @@ def getrdfdata():
 		xml.etree.ElementTree.Element: An etext meta-data definition.
 	"""
 	if not os.path.exists(RDFFILES):
-		_, _ = urllib.urlretrieve(RDFURL, RDFFILES)
+		_, _ = urllib.urlretrieve(RDFURL2, RDFFILES)
 	with tarfile.open(RDFFILES) as archive:
 		for tarinfo in archive:
 			yield ElementTree.parse(archive.extractfile(tarinfo))
