@@ -9,6 +9,8 @@ import pandas as pd
 import numpy as np
 import nltk
 import json
+import rdflib
+from metadata_extraction import readmetadata
 
 from nltk.corpus import stopwords
 nltk.download('stopwords')
@@ -75,7 +77,7 @@ class BookUtil(object):
         convert to list
         strip punctuation, lowercase
         '''
-        return [tok.lower().strip(punctuation) for tok in line.strip('\n').split()]
+        return [tok.strip(punctuation).lower().strip(punctuation) for tok in line.strip('\n').split() if tok.isalpha()]
 
     def _remove_stop_words(self, line):
         '''
@@ -114,6 +116,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     Call all subfunctions.
     Create and save gensim objects needed for lda model (corpus, dictionary).
     '''
+
     fileid_lst = get_fileid_lst(source_dir)
     books_lst_filep = outputs_dir + distinguishing_str + '_lst.txt'
 
@@ -128,14 +131,7 @@ def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y'
     save_stuff(distinguishing_str=distinguishing_str, dictionary=dictionary, corpus=None, counts_dict=counts_dict, outputs_dir=outputs_dir)
 
     print "Dimensional reduction complete!"
-    print "After dimensional reduction:"
-    print "   "
-    # print "Average total tokens per book:        ", avg_num_tokens
-    # print "Average unique tokens per book:       ", avg_unique_toks
-    # print "Number of unique words in vocabulary: ", dictionary_length
 
-    # return avg_num_tokens, avg_unique_toks, dictionary_length, toks_per_fileid, unique_toks_per_fileid
-    #need to write dimensionality reduction stuff to file for review
 
 def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
     #Should probably rewrite as class obj....
@@ -143,6 +139,9 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
     Iterate thru all books and create a dictionary.
     Save each 'book-as-list' to a file, to use later to create the corpus.
     '''
+
+    print "extracting metadata - this should take a couple of minutes"
+    metadata = readmetadata()
     #should change to IterFile object... for class rewrite, this obj can then be shared by freq filtering utility
     f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
     stop = set(stopwords.words('english'))
@@ -158,6 +157,9 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
 
     for num, f_id in enumerate(fileid_lst):
         adj_num = num + 1
+
+        # get metadata
+        title = get_book_title(f_id, metadata)
 
         current_book = BookUtil(f_id, source_dir, stop)
         current_book.transform()
@@ -177,8 +179,7 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
             onek_books_lst = []
             dicts_count += 1
 
-        f.write(u",".join(tmp_book_lst) + '\n')
-##ADD HERE: add identifying book information (book num) as the first entry of each line - can then query metadata against that later
+        f.write(title + ',' + u",".join(tmp_book_lst) + '\n')
     f.close()
 
     dictionary = create_save_dicts(onek_books_lst, dicts_fp, dicts_count, final_merge="y")
@@ -201,13 +202,26 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
 
         counts_dict['freq_filtered'] = dict({'avg_words' : ff_word_count, 'avg_unique' : ff_unique_count, 'total_vocab' : ff_total_vocab})
 
-    print "returned dictionary is this size: ", transf_total_vocab
-
-    print "returning the books list file path " + books_lst_filep
-    print "counts (for dev, unformatted):",  counts_dict
+    print "Results of dimensional reduction:",
+    print "Tokenized:", counts_dict['tokenized']
+    print "Stopword removal:", counts_dict['tok_and_sw']
+    print "Frequency filtered", counts_dict['freq_filtered']
 
     return dictionary, books_lst_filep, counts_dict
 
+def get_book_title(f_id, metadata):
+    '''
+    Query metadata based on file id
+    '''
+    book_num = int(f_id.rstrip('.txt'))
+
+    try:
+        title = metadata[book_num]['title']#.decode('utf-8')
+    except KeyError:
+        title = "NotAvailable"
+
+    print title
+    return title
 
 def merge_dicts(dicts_count, outputs_dir):
     '''
@@ -278,6 +292,9 @@ def frequency_filtering(dictionary, books_lst_filep, no_below=5, no_above=0.40):
     pass
 
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
+    print "frequency filtering: starting dictionary set"
+    s = set(dictionary.values())
+    print "frequency filtering: finished dictionary set"
 
     #pull in the prev created corpus list file
     transf_corp_f = IterFile(fname=None, root=None, mode='r', full_fp=books_lst_filep)
@@ -288,12 +305,15 @@ def frequency_filtering(dictionary, books_lst_filep, no_below=5, no_above=0.40):
 
     ff_word_count_lst, ff_unique_count_lst = [], []
     for num, book_line in enumerate(transf_corp_f):
-        filtered_line = [tok for tok in book_line.strip('/n').split(",") if tok in dictionary]
+        stripped_line = book_line.strip('/n').split(",")
+        title = stripped_line[0]
+        print title
+        filtered_line = [tok for tok in stripped_line[1:] if tok in s]
 
         ff_word_count_lst.append(len(filtered_line))
         ff_unique_count_lst.append(len(set(filtered_line)))
 
-        freq_filt_corp_f.write(u",".join(filtered_line) + '\n')
+        freq_filt_corp_f.write(title + ',' + u",".join(filtered_line) + '\n')
         print "book", num, "frequency-filtered"
 
     #make counts
@@ -370,10 +390,4 @@ if __name__=='__main__':
     #at end add print statement to remind user of string they entered (for lda call)
 
     if use_full_data != 'merge':
-        create_save_objs(source_dir, outputs_dir, distinguishing_str, min_freq=None)
-
-    ##Backup: hardcoded dir options
-    #source_dir = '/home/ubuntu/data_download/clean_books/'
-    #outputs_dir = '/home/ubuntu/Capstone/outputs/full_data/'
-    #source_dir = '/Users/rachelbrynsvold/dsi/capstone_dir/Capstone/books/clean' + '/'
-    #outputs_dir = '/Users/rachelbrynsvold/dsi/capstone_dir/Capstone/outputs/junk' + '/'
+        create_save_objs(source_dir, outputs_dir, distinguishing_str, min_freq=5)
