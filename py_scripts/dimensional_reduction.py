@@ -341,7 +341,7 @@ def get_fileid_lst(source_dir):
 if __name__=='__main__':
     #prompt user for needed info
     distinguishing_str = str(raw_input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
-    use_full_data = raw_input("Will you be using the full data set (y/n)?: ")
+    # use_full_data = raw_input("Will you be using the full data set (y/n)?: ")
     #^ this is super useful for development but should be removed for final reproducibility code
 
     #create outputs directory which will be on the gitignore
@@ -360,20 +360,21 @@ if __name__=='__main__':
     outputs_dir = run_specific_file_path + '/' #outputs_dir same both ways
 
     #relative filepaths - various options for various corp sizes for dev
-    if use_full_data == 'n':
-        which_partial = int(raw_input("What is the subset size? " ))
-        if which_partial == 5000:
-            source_dir = '../../5000_books' + '/'
-        elif which_partial == 10000:
-            source_dir = '../../10k_books' + '/'
-        elif which_partial == 2500:
-            source_dir = '../../2500_books' + '/'
-        elif which_partial == 1000:
-            source_dir = '../../1000_books' + '/'
-        elif which_partial == 95:
-            source_dir  = '../books/clean' + '/' #for 95-book practice data
-        else:
-            print "That subset is not available here"
+    # if use_full_data == 'n':
+    #     which_partial = int(raw_input("What is the subset size? " ))
+    #     if which_partial == 5000:
+    #         source_dir = '../../5000_books' + '/'
+    #     elif which_partial == 10000:
+    #         source_dir = '../../10k_books' + '/'
+    #     elif which_partial == 2500:
+    #         source_dir = '../../2500_books' + '/'
+    #     elif which_partial == 1000:
+    #         source_dir = '../../1000_books' + '/'
+    #     elif which_partial == 95:
+    #         source_dir  = '../books/clean' + '/' #for 95-book practice data
+    #     else:
+    #         print "That subset is not available here"
+    source_dir = '../../5000_books' + '/'
 
         print "end of source_dir assignment script, source_dir = ", source_dir
     elif use_full_data == 'y':
