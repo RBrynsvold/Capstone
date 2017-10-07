@@ -1,21 +1,24 @@
-# Networks from Topic Models: Literary Analysis using NLP
+# Literary Analysis with NLP: LDA Topic Modeling
 
 ## Project Description
 
-Using a corpus harvested from Project Gutenberg, a large online repository of ebooks, this project will develop a topic model of these texts using Latent Dirichlet Allocation (LDA).  
-
-Through the use of this and other NLP techniques, I will gain an understanding of the underlying topics that are shared amongst the collection of books, and use this information to infer a network showing their relationships to one another.
-
-## Collaboration with Terminal Labs: Project Rambo utilization
-
-For this project, I am collaborating with Terminal Labs to use their open-source ![project Rambo](https://github.com/terminal-labs/rambo).  This tool allows me to automate Vagrant provisioning and configuration of virtual machines for use on distributed computing resources.  Not only is it a valuable aid during the development cycle, but it will make my data science work reliably reproducible for years to come!
+Using a corpus of 5000 texts harvested from Project Gutenberg, a large online repository of ebooks, I've developed a topic model of these texts using Latent Dirichlet Allocation (LDA). The topic model allows us to understand a given text in terms of an 'constituent topics', for example: a book could contain a mixture of topics such as 'rome', 'classical music', and 'chemistry'!  It can also tell us topics related to a given word, or books related to given topic.  There's so much you can learn about a corpus (collection of documents) by fitting and exploring a topic model!
 
 
-### Hungry for more?  
+### Reproducibility with Project Rambo (tool by Terminal Labs)
 
-I welcome you to take a look around the repo, and also to check out my capstone presentation on Oct 5th [registration here](https://www.eventbrite.com/e/october-data-science-capstone-showcase-galvanize-austin-tickets-37471124141)!
+For this project, I collaborated with Terminal Labs to use their open-source ![project Rambo](https://github.com/terminal-labs/rambo).  This tool allows users to automate Vagrant provisioning and configuration of virtual machines for use on distributed computing resources (including AWS, Digitial Ocean, and VirtualBox).  Not only was it a valuable aid during the development cycle, but it allows the work to be reliably reproduced by anyone, anywhere!
 
 
-__Until then, please excuse the mess - project still under construction!__
+### Want to try it for yourself?
 
- ![under construction](https://images.pexels.com/photos/211122/pexels-photo-211122.jpeg?w=940&h=650&auto=compress&cs=tinysrgb)
+Follow these ![replication instructions](https://github.com/RBrynsvold/Capstone/blob/master/replication_instructions.md) and see what you can discover!
+
+
+### Thanks so much for stopping by!
+
+Please let me know your experiences in reproducing this work: new learnings, suggestions, bugs... This project is ongoing, so I'd always love to hear your feedback!
+
+
+
+ ![cool library](https://images.pexels.com/photos/159870/stuttgart-library-white-books-159870.jpeg?w=940&h=650&auto=compress&cs=tinysrgb)
