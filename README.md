@@ -2,20 +2,19 @@
 
 ## Project Description
 
-Using a corpus harvested from Project Gutenberg, a large online repository of ebooks, I developed topic model of these texts using Latent Dirichlet Allocation (LDA).  
+Using a corpus of 5000 books harvested from Project Gutenberg, a large online repository of ebooks, I've developed a topic model of these texts using Latent Dirichlet Allocation (LDA). The topic model allows us to understand a given text almost in terms of an 'ingredients list' - for example, a book could be 40% mystery, 17% romance, 9% thriller, and so on. 
 
-Through the use of this and other NLP techniques, I will gain an understanding of the underlying topics that are shared amongst the collection of books, and use this information to infer a network showing their relationships to one another.
 
-## Collaboration with Terminal Labs: Project Rambo utilization
+### Reproducibility with Project Rambo (tool by Terminal Labs)
 
-For this project, I am collaborating with Terminal Labs to use their open-source ![project Rambo](https://github.com/terminal-labs/rambo).  This tool allows me to automate Vagrant provisioning and configuration of virtual machines for use on distributed computing resources.  Not only is it a valuable aid during the development cycle, but it will make my data science work reliably reproducible for years to come!
+For this project, I collaborated with Terminal Labs to use their open-source ![project Rambo](https://github.com/terminal-labs/rambo).  This tool allows users to automate Vagrant provisioning and configuration of virtual machines for use on distributed computing resources.  Not only was it a valuable aid during the development cycle, but it allows the work to be reliably reproduced by anyone, anywhere!
 
 
 ### Want to try it for yourself?
 
-Follow the instructions here and have fun!
+Follow these ![replication instructions](https://github.com/RBrynsvold/Capstone/blob/master/replication_instructions.md) and see what you can discover!
 
 
-__Until then, please excuse the mess - project still under construction!__
+__Thanks for stopping by!__
 
- ![under construction](https://images.pexels.com/photos/211122/pexels-photo-211122.jpeg?w=940&h=650&auto=compress&cs=tinysrgb)
+ ![cool library](https://images.pexels.com/photos/159870/stuttgart-library-white-books-159870.jpeg?w=940&h=650&auto=compress&cs=tinysrgb)
