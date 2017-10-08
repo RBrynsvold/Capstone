@@ -2,7 +2,9 @@
                
                git clone https://github.com/terminal-labs/nlp-research-box-rambo.git
 
-2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there. **Need to include some minimum HW specs when I know them**   
+2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there. 
+
+   _A note on hardware requirements:  this project is intended to be run on a t2.xlarge ec2 or equivalent.  Note for more than 5 passes for the fitting script, you may want to use a more powerful machine/vm._
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  Steps 3-6 are to be performed inside your rambo vm.
 
@@ -26,10 +28,9 @@
      
    Then you can run the script:
 
-                python dim_reduction_corp_class.py
-   **REMINDER - change script name for final**
+                python dimensional_reduction.py
    
-   Note: you will be prompted to provide an identifier string for your run.
+   Note: you will be prompted to provide an identifier string for your run.  Make note of this string, so you can provide it again for the fitting script.
 
 
 6. Execute the lda modeling script (also from the py_scripts directory)
@@ -41,7 +42,7 @@
       * The identifier string for the corpus and dictionary from which to build the model   
            __This string must match exactly the string given in step 5!__
       * Number of topics to use for model fitting   
-           __In this project I determined the optimal number of topics to be NUMBERISTBD__
+           __In this project I got good results with a number of topics of 50
       * Number of cores on your machine   
            If greater than 1, the model will be run multithreaded
         
