@@ -393,5 +393,5 @@ if __name__=='__main__':
 
     #at end add print statement to remind user of string they entered (for lda call)
 
-    if use_full_data != 'merge':
-        create_save_objs(source_dir, outputs_dir, distinguishing_str, min_freq=5)
+    # if use_full_data != 'merge':
+    create_save_objs(source_dir, outputs_dir, distinguishing_str, min_freq=5)
