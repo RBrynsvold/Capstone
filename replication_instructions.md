@@ -42,7 +42,7 @@
       * The identifier string for the corpus and dictionary from which to build the model   
            __This string must match exactly the string given in step 5!__
       * Number of topics to use for model fitting   
-           __In this project I got good results with a number of topics of 50
+           __In this project I got good results with a number of topics of 50_
       * Number of cores on your machine   
            If greater than 1, the model will be run multithreaded
         
