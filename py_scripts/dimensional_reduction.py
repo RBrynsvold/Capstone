@@ -376,16 +376,17 @@ if __name__=='__main__':
     #         print "That subset is not available here"
     source_dir = '../../5000_books' + '/'
 
-        print "end of source_dir assignment script, source_dir = ", source_dir
-    elif use_full_data == 'y':
-        source_dir = '../../clean_books' + '/'  #for full data set
-    elif use_full_data == 'merge':
-        source_dir = 'skipping the source, yo!'
-        dict_count = raw_input("How many dictionaries to merge?: ")
-        merge_dicts(int(dict_count), outputs_dir)
-    else:
-        source_dir = 'invalid file path to raise error'
-        print "please rerun and enter either 'y' or 'n' "
+    # print "end of source_dir assignment script, source_dir = ", source_dir
+    #
+    # elif use_full_data == 'y':
+    #     source_dir = '../../clean_books' + '/'  #for full data set
+    # elif use_full_data == 'merge':
+    #     source_dir = 'skipping the source, yo!'
+    #     dict_count = raw_input("How many dictionaries to merge?: ")
+    #     merge_dicts(int(dict_count), outputs_dir)
+    # else:
+    #     source_dir = 'invalid file path to raise error'
+    #     print "please rerun and enter either 'y' or 'n' "
 
     print "Data source to be used: ", source_dir
     print "************************************************"
