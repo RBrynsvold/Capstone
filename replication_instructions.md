@@ -4,7 +4,7 @@
 
 2. In your clone of the nlp-research-box-rambo, navigate to **INSTALL.md** (linked at the top of the README page) and follow the instructions there. 
 
-   _A note on hardware requirements:  this project is intended to be run on a t2.xlarge ec2 or equivalent.  Note for more than 5 passes for the fitting script, you may want to use a more powerful machine/vm._
+   _A note on hardware requirements:  this project is intended to be run on a t2.xlarge EC2 or equivalent.  Note for more than 5 passes for the fitting script, you may want to use a more powerful machine/vm._
 
    This will produce an exact replica of the environment used to do this data science work, fully contained inside a virtual machine.  Steps 3-6 are to be performed inside your rambo vm.
 
