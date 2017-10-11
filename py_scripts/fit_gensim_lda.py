@@ -10,9 +10,9 @@ import itertools
 logging.basicConfig(format='%(levelname)s : %(message)s', level=logging.INFO)
 logging.root.level = logging.INFO  # ipython sometimes messes up the logging setup; restore
 
-def head(stream, n=10):
-    """Convenience fnc: return the first `n` elements of the stream, as plain list."""
-    return list(itertools.islice(stream, n))
+# def head(stream, n=10):
+#     """Convenience fnc: return the first `n` elements of the stream, as plain list."""
+#     return list(itertools.islice(stream, n))
 
 
 class LDAMaker(object):
@@ -80,18 +80,20 @@ if __name__=='__main__':
     passes = int(raw_input("Enter the number of passes for fitting the model: "))
     cores = int(raw_input("Enter number of cores on your machine: "))
         #future improvement: any way for this script to query the rambo/vagrant setup files to determine # of cores?
-    #should change back to source_dir and outputs_dir, so I can save the new elsewhere (multiple models from same dim red)
+        #alternately/additionally, would like this script to reference a specs file, so it is tunable without having manually enter each parameter each time
+
+    #should change back to source_dir and outputs_dir approach, so I can save the new elsewhere (multiple models from same dim red run)
     header = '../' + 'outputs-git_ignored/' #if problems move '/' down
     rw_dir = header + distinguishing_str + '/'
 
     LDAmod = LDAMaker(rw_dir, distinguishing_str)
     LDAmod.load_stuff()
 
-    print "model fitting beginning - this may take a while"
+    print "Model fitting beginning - this will take several minutes to several hours"
     LDAmod.fit_lda(num_topics, cores, passes)
     #look into adding that logging thing so I can tell what's going on
 
     LDAmod.save_lda()
-    print "model fitted and saved!"
+    print "Model fitted and saved!"
 
-    #probably should have script make a subdir for multiple models from the same dim reduction
+    #To support more docs: try rewriting to fit model to smaller # of docs, then updating model - over and over until full corpus is processed??

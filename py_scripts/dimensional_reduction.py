@@ -111,7 +111,7 @@ class BookUtil(object):
 
 
 def create_save_objs(source_dir, outputs_dir, distinguishing_str, stop_words='Y', min_freq=5):
-    #Note sure this function is really useful... need to eliminate in rewrite
+    #Not sure this function is really useful... need to eliminate in further class rewrite
     '''
     Call all subfunctions.
     Create and save gensim objects needed for lda model (corpus, dictionary).
@@ -141,7 +141,7 @@ def process_books(fileid_lst, books_lst_filep, outputs_dir, min_freq):
     Save each 'book-as-list' to a file, to use later to create the corpus.
     '''
 
-    print "extracting metadata - this should take a couple of minutes"
+    print "Extracting metadata - this should take a couple of minutes"
     metadata = readmetadata()
     #should change to IterFile object... for class rewrite, this obj can then be shared by freq filtering utility
     f = codecs.open(books_lst_filep, 'w', encoding='utf_8')
@@ -269,18 +269,18 @@ def save_stuff(distinguishing_str, dictionary, corpus, counts_dict, outputs_dir)
 
     if dictionary != None:
         dictionary.save(file_path + '.dict')
-    else:
-        print "no dictionary to save"
+    # else:
+    #     print "no dictionary to save"
 
     if corpus != None:
         corpora.MmCorpus.serialize(file_path + '_corpus.mm', corpus)
-    else:
-        print "No corpus to save"
+    # else:
+    #     print "No corpus to save"
 
     if counts_dict != None:
         json.dump(counts_dict, open(file_path + '_json.txt','w'))
-    else:
-        print "No counts to save"
+    # else:
+    #     print "No counts to save"
 
 
 
@@ -355,9 +355,8 @@ if __name__=='__main__':
     run_specific_file_path = git_ignored_dir + '/' + distinguishing_str
     if not os.path.exists(run_specific_file_path):
         os.makedirs(run_specific_file_path)
-    else:
-        print "saw output dir already existing and ignored"
-    outputs_dir = run_specific_file_path + '/' #outputs_dir same both ways
+
+        outputs_dir = run_specific_file_path + '/' #outputs_dir same both ways
 
     #relative filepaths - various options for various corp sizes for dev
     # if use_full_data == 'n':
@@ -374,24 +373,15 @@ if __name__=='__main__':
     #         source_dir  = '../books/clean' + '/' #for 95-book practice data
     #     else:
     #         print "That subset is not available here"
-    source_dir = '../../5000_books' + '/'
+        source_dir = '../../5000_books' + '/'
 
-    # print "end of source_dir assignment script, source_dir = ", source_dir
-    #
-    # elif use_full_data == 'y':
-    #     source_dir = '../../clean_books' + '/'  #for full data set
-    # elif use_full_data == 'merge':
-    #     source_dir = 'skipping the source, yo!'
-    #     dict_count = raw_input("How many dictionaries to merge?: ")
-    #     merge_dicts(int(dict_count), outputs_dir)
-    # else:
-    #     source_dir = 'invalid file path to raise error'
-    #     print "please rerun and enter either 'y' or 'n' "
+        print "Data source to be used: ", source_dir
+        print "************************************************"
 
-    print "Data source to be used: ", source_dir
-    print "************************************************"
+        create_save_objs(source_dir, outputs_dir, distinguishing_str, min_freq=5)
+        #TODO: would be nice to have both scripts reference some text file for all the various input params
+        #That way it is truly tunable, but not everything has to be manually entered for each run
 
-    #at end add print statement to remind user of string they entered (for lda call)
-
-    # if use_full_data != 'merge':
-    create_save_objs(source_dir, outputs_dir, distinguishing_str, min_freq=5)
+    else:
+        print "WARNING: path already exists.  Ending script."
+        print "Rerun script and provide unused identifier string"
