@@ -29,10 +29,9 @@ class LDAMaker(object):
         '''
         Load up the dictionary (vocabulary) from file and the corpus as an object streamed from the dictionary
         '''
-        dict_fp = self.dest_dir + self.dest_str + '.dict'
-        corp_lst_fp = self.dest_dir + self.dest_str + '_lst.txt'
+        dict_fp = self.source_dir + self.source_str + '.dict'
+        corp_lst_fp = self.source_dir + self.source_str + '_lst.txt'
 
-        # dict_fp = self.rw_dir + self.distinguishing_str + '.dict'
         # corp_lst_fp = '../../' + self.distinguishing_str + '_lst.txt'
 
         self.dictionary = corpora.Dictionary.load(dict_fp)
