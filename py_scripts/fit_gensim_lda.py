@@ -55,6 +55,10 @@ class LDAMaker(object):
         '''
         Saves fitted lda model out to disk
         '''
+
+        if not os.path.exists(self.dest_dir):
+            os.makedirs(self.dest_dir)
+
         lda_fp = self.dest_dir + self.dest_str + '.model'
         self.lda.save(lda_fp)
 
