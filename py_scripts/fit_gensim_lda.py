@@ -19,16 +19,18 @@ class LDAMaker(object):
     '''
     Contains everything to fit an LDA model
     '''
-    def __init__(self, rw_dir, distinguishing_str):
-        self.rw_dir = rw_dir
-        self.distinguishing_str = distinguishing_str
+    def __init__(self, source_dir, source_str, dest_dir, dest_str):
+        self.source_dir = source_dir
+        self.source_str = source_str
+        self.dest_dir = dest_dir
+        self.dest_str = dest_str
 
     def load_stuff(self):
         '''
         Load up the dictionary (vocabulary) from file and the corpus as an object streamed from the dictionary
         '''
-        dict_fp = self.rw_dir + self.distinguishing_str + '.dict'
-        corp_lst_fp = self.rw_dir + self.distinguishing_str + '_lst.txt'
+        dict_fp = self.dest_dir + self.dest_str + '.dict'
+        corp_lst_fp = self.dest_dir + self.dest_str + '_lst.txt'
 
         # dict_fp = self.rw_dir + self.distinguishing_str + '.dict'
         # corp_lst_fp = '../../' + self.distinguishing_str + '_lst.txt'
@@ -54,7 +56,7 @@ class LDAMaker(object):
         '''
         Saves fitted lda model out to disk
         '''
-        lda_fp = self.rw_dir + self.distinguishing_str + '.model'
+        lda_fp = self.dest_dir + self.dest_str + '.model'
         self.lda.save(lda_fp)
 
 
@@ -75,7 +77,8 @@ class CorpStreamer(object):
 
 if __name__=='__main__':
 
-    distinguishing_str = str(raw_input("Enter identifier string for the corpus and dictionary from which to build the model: "))
+    source_str = str(raw_input("Enter identifier string for the corpus and dictionary from which to build the model: "))
+    dest_str = str(raw_input("Enter the identifier string to use for saving the model files: "))
     num_topics = int(raw_input("Enter number of topics (integer) to use for model fitting: "))
     passes = int(raw_input("Enter the number of passes for fitting the model: "))
     cores = int(raw_input("Enter number of cores on your machine: "))
@@ -84,9 +87,10 @@ if __name__=='__main__':
 
     #should change back to source_dir and outputs_dir approach, so I can save the new elsewhere (multiple models from same dim red run)
     header = '../' + 'outputs-git_ignored/' #if problems move '/' down
-    rw_dir = header + distinguishing_str + '/'
+    source_dir = header + source_str + '/'
+    dest_dir = header + dest_str + '/'
 
-    LDAmod = LDAMaker(rw_dir, distinguishing_str)
+    LDAmod = LDAMaker(source_dir, source_str, dest_dir, dest_str)
     LDAmod.load_stuff()
 
     print "Model fitting beginning - this will take several minutes to several hours"
