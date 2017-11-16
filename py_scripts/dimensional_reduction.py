@@ -136,7 +136,7 @@ def process_books(fps, min_freq):
 
     transf_total_vocab = len(dictionary)
     tokenized_total_vocab = transf_total_vocab + len(stop)
-    #I realize this is kind of cheating, but it is definitionally true and saves a TON of comp time/resources
+    #I realize this is kind of cheating for the counts, but it is definitionally true and saves a TON of comp time/resources
 
     counts_dict = dict({'tokenized' : dict({'avg_words' : tokenized_avg_words, 'avg_unique' : tokenized_avg_unique, 'total_vocab' : tokenized_total_vocab}),  'tok_and_sw' : dict({'avg_words' : transf_avg_words, 'avg_unique' : transf_avg_unique, 'total_vocab' : transf_total_vocab})})
 
@@ -213,7 +213,7 @@ def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.75):
     '''
     #This should probably be another class method of bookS utils?
 
-    dictionary.filter_extremes(no_below=no_below, no_above=no_above)
+    dictionary.filter_extremes(no_below=no_below, no_above=no_above, keep_n=2000000)
     print("frequency filtering: starting dictionary set")
     s = set(dictionary.values())
     print("frequency filtering: finished dictionary set")
@@ -279,4 +279,4 @@ if __name__=='__main__':
     print("Dimensional reduction complete!")
     print("Use", id_str, "as the identifier string for the model fitting script.")
         #TODO: would be nice to have both scripts reference some text file for all the various input params
-        #That way it is truly tunable, but not everything has to be manually entered for each run
+        #That way it is still user-tunable, but not everything has to be manually entered for each run
