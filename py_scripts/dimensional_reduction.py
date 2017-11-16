@@ -141,7 +141,7 @@ def process_books(fps, min_freq):
     counts_dict = dict({'tokenized' : dict({'avg_words' : tokenized_avg_words, 'avg_unique' : tokenized_avg_unique, 'total_vocab' : tokenized_total_vocab}),  'tok_and_sw' : dict({'avg_words' : transf_avg_words, 'avg_unique' : transf_avg_unique, 'total_vocab' : transf_total_vocab})})
 
     if min_freq != None:
-        dictionary, ff_word_count, ff_unique_count = frequency_filtering(dictionary, fps.corp_lst_fp, no_below=min_freq, no_above=0.40)
+        dictionary, ff_word_count, ff_unique_count = frequency_filtering(dictionary, fps.corp_lst_fp, no_below=min_freq) #no_above=0.50)
 
         ff_total_vocab = len(dictionary)
 
@@ -205,11 +205,9 @@ def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
             print("dictionary", n, "loaded & merged")
         return final_dict
 
-##THIS GOES TOO SLOW -
-#to add the freq filtering functionality back in (if time permits), need to do it like here: https://stackoverflow.com/questions/24688116/how-to-filter-out-words-with-low-tf-idf-in-a-corpus-with-gensim
-def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.75):
+def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.5):
     '''
-    Remove words that appear in less than 5 documents or more than 40 percent of documents
+    Remove words that appear in less than 5 documents or more than 50 percent of documents (defaults)
     '''
     #This should probably be another class method of bookS utils?
 
