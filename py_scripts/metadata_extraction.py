@@ -39,12 +39,16 @@ import os
 import re
 import gzip
 import tarfile
-import urllib
+try:
+    from urllib.request import urlretrieve
+except ImportError:
+    from urllib import urlretrieve
 import xml.etree.cElementTree as ElementTree
 try:
 	import cPickle as pickle
 except ImportError:
 	import pickle
+from six import u
 
 PICKLEFILE = '/tmp/md.pickle.gz'  # The Python dict produced by this module
 RDFFILES = '/tmp/rdf-files.tar.bz2'  # The catalog downloaded from Gutenberg
@@ -57,7 +61,8 @@ NS = dict(
 		dc='http://purl.org/dc/terms/',
 		dcam='http://purl.org/dc/dcam/',
 		rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-LINEBREAKRE = re.compile(ur'[ \t]*[\n\r]+[ \t]*')
+
+LINEBREAKRE = re.compile(u(r'[ \t]*[\n\r]+[ \t]*'))
 ETEXTRE = re.compile(r'''
 	e(text|b?ook)
 	\s*
@@ -108,7 +113,7 @@ def getrdfdata():
 		xml.etree.ElementTree.Element: An etext meta-data definition.
 	"""
 	if not os.path.exists(RDFFILES):
-		_, _ = urllib.urlretrieve(RDFURL2, RDFFILES)
+		_, _ = urlretrieve(RDFURL2, RDFFILES)
 	with tarfile.open(RDFFILES) as archive:
 		for tarinfo in archive:
 			yield ElementTree.parse(archive.extractfile(tarinfo))
@@ -217,7 +222,16 @@ def fixsubtitles(title):
 
 
 def safeunicode(arg, *args, **kwargs):
-	"""Coerce argument to unicode, if it's not already."""
-	return arg if isinstance(arg, unicode) else unicode(arg, *args, **kwargs)
+    """Coerce argument to unicode, if it's not already."""
+    
+    try:
+        if isinstance(arg, unicode):
+            arg_result = arg
+        else:
+            arg_result = unicode(arg, *args, **kwargs)
+    except NameError:
+        arg_result = arg
+
+    return arg_result
 
 __all__ = ['readmetadata']
