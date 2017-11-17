@@ -81,7 +81,7 @@ class BookUtil(object):
         self.iter_book.close()
 
 
-def process_books(fps, min_freq):
+def process_books(fps, min_freq, run_params):
     #Should probably rewrite as class obj? Maybe not?
     #Rewrote filepath mgmt as class obj - that might have done what I wanted
     '''
@@ -141,7 +141,7 @@ def process_books(fps, min_freq):
     counts_dict = dict({'tokenized' : dict({'avg_words' : tokenized_avg_words, 'avg_unique' : tokenized_avg_unique, 'total_vocab' : tokenized_total_vocab}),  'tok_and_sw' : dict({'avg_words' : transf_avg_words, 'avg_unique' : transf_avg_unique, 'total_vocab' : transf_total_vocab})})
 
     if min_freq != None:
-        dictionary, ff_word_count, ff_unique_count = frequency_filtering(dictionary, fps.corp_lst_fp, no_below=min_freq) #no_above=0.50)
+        dictionary, ff_word_count, ff_unique_count = frequency_filtering(dictionary, fps.corp_lst_fp, no_below=run_params['min_freq'], no_above=run_params['max_freq'], keep_n=run_params['keep_n'])
 
         ff_total_vocab = len(dictionary)
 
@@ -205,13 +205,13 @@ def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
             print("dictionary", n, "loaded & merged")
         return final_dict
 
-def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.5):
+def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.5, keep_n=2000000):
     '''
     Remove words that appear in less than 5 documents or more than 50 percent of documents (defaults)
     '''
     #This should probably be another class method of bookS utils?
 
-    dictionary.filter_extremes(no_below=no_below, no_above=no_above, keep_n=2000000)
+    dictionary.filter_extremes(no_below=no_below, no_above=no_above, keep_n=keep_n)
     print("frequency filtering: starting dictionary set")
     s = set(dictionary.values())
     print("frequency filtering: finished dictionary set")
@@ -261,12 +261,17 @@ if __name__=='__main__':
     id_str = str(input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
     fps = DirFileMgr(id_str)
-    fps.create_all_dr_fps()
+    fps.create_all_dr_fps(new_setup='Y')
+
+    with open(fps.dr_run_params) as run_params_f:
+        #add 'try' statement logic
+        run_params = json.load(run_params_f)
+    print (run_params)
 
     print("starting iteration thru corpus on disk")
     print("************************************************")
 
-    dictionary, counts_dict = process_books(fps, min_freq=5)
+    dictionary, counts_dict = process_books(fps, min_freq=run_params['min_freq'], run_params=run_params)
 
     print("transformations and dictionary building complete")
     print("************************************************")
@@ -276,5 +281,3 @@ if __name__=='__main__':
 
     print("Dimensional reduction complete!")
     print("Use", id_str, "as the identifier string for the model fitting script.")
-        #TODO: would be nice to have both scripts reference some text file for all the various input params
-        #That way it is still user-tunable, but not everything has to be manually entered for each run

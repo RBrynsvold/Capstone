@@ -66,9 +66,15 @@ class DirFileMgr(object):
         elif obj == 'counts_dict':
             self.counts_fp = head + '_json.txt'
             print("counts dictionary fp is assigned as ", self.counts_fp)
+        elif obj == 'dr_run_params':
+            self.dr_run_params = head + '_dr_run_params.txt'
+            print("dimensional reduction run parameters fp is assigned as ", self.dr_run_params)
         elif obj == 'model':
             self.model_fp = self.model_dir + '/' + self.model_str + '.model'
             print("model fp is assigned as ", self.model_fp)
+        elif obj == 'mod_run_params':
+            self.mod_run_params = head + '_mod_run_params.txt'
+            print("modeling run parameters fp is assigned as ", self.mod_run_params)
         elif obj == 'pyLDAvis':
             self.pyldavis_fp = self.model_dir + '/' + self.model_str + '_ldavis.html'
             print("pyLDAvis html fp is assigned as ", self.model_fp)
@@ -107,6 +113,8 @@ class DirFileMgr(object):
         self.add_fp('corp_lst')
         self.add_fp('dictionary')
         self.add_fp('counts_dict')
+        self.add_fp('dr_run_params')
+        #figure out a way to set up default run params
 
     def create_all_modeling_fps(self, model_str):
         '''
@@ -120,6 +128,7 @@ class DirFileMgr(object):
         self.add_fp('dictionary')
         self.add_fp('counts_dict')
         self.add_fp('model')
+        self.add_fp('mod_run_params')
 
 #GP file iteration utility
 #needs work to make general - use a 'with codecs.open?'
