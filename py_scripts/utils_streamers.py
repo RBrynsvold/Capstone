@@ -95,7 +95,7 @@ class DirFileMgr(object):
                 self.source_dir  = '../books/clean' + '/' #for 95-book practice data
                 print("source dir is assigned as", self.source_dir)
             elif which_data == 'full corpus':
-                self.source_dir = '../../full_corp_28k' + '/'
+                self.source_dir = '../../full_corp_28k/clean_books' + '/'
             else:
                 print("Invalid entry for data source")
                 #source_dir = '../../5000_books' + '/'
