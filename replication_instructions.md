@@ -24,8 +24,16 @@
  
 5. Set the run parameters for both scripts by tunneling in to the ec2 with a jupyter notebook
 
-    * Open a browser window, and enter YourEc2IPv4Address:8080  
-    * Enter password 'admin'   
+    Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
+
+    * Determine your public IP address ('IPv4 Public IP').   
+        For an AWS EC2, you can find this by viewing it on your EC2 Management Console
+    * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'   
+   
+        _yourIPv4PublicIP_:8080
+      
+    * Enter 'admin' in the password field
+    * Navigate into the Capstone/notebooks directory  
     * Launch the 'set_run_params.ipynb' notebook, and execute all cells.  
         _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
 
@@ -59,17 +67,8 @@
    Depending on the details of your vm, this step will take at least a few hours.
 
 7. Inspect the results of your fitted model inside a jupyter notebook!
-
-   Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
    
-   * Determine your public IP address ('IPv4 Public IP').   
-        For an AWS EC2, you can find this by viewing it on your EC2 Management Console
-   * Open a browser window and enter your your IPv4 Public IP, followed by ':8080'   
-   
-        _yourIPv4PublicIP_:8080
-      
-   * Enter 'admin' in the password field
-   * Navigate into the Capstone/notebooks directory
+   * Repeat the tunneling steps listed in step 5
    * Open the 'load_inspect_model.ipynb' notebook
    * Execute the cells in order and do your own investigation of the results!
       
