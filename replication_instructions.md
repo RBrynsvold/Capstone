@@ -19,7 +19,7 @@
 
                 bash /home/vagrant/Capstone/bash_scripts/wget_download_from_mirror.sh
    
-   _For advanced users, there is the option to download and model the full 28k-book corpus.  On the 5k-book corpus, the LDA algorithm will pretty consistently run successfully, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced ec2 instance like the t2.xlarge default in this code._
+   _For advanced users, there is the option to download and model the full 28k-book corpus.  See notes at the bottom._
    
  
 5. Execute the dimensional reduction script
@@ -64,3 +64,8 @@
    * Navigate into the Capstone/notebooks directory
    * Open the 'load_inspect_model.ipynb' notebook
    * Execute the cells in order and do your own investigation of the results!
+   
+   
+   
+ **Notes:**
+On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced ec2 instance like the t2.xlarge default in this code
