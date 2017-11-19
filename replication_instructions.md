@@ -22,6 +22,14 @@
    _For advanced users, there is the option to download and model the full 28k-book corpus.  See notes at the bottom._
    
  
+5. Set the run parameters for both scripts by tunneling in to the ec2 with a jupyter notebook
+
+    Open a browser window, and enter <your ec2 IPv4 address>:8080  
+    Enter password 'admin'   
+    Launch the 'set_run_params.ipynb' notebook, and execute all cells.  
+        _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
+
+
 5. Execute the dimensional reduction script
 
    For this step you must enter the Capstone/py_scripts directory:
