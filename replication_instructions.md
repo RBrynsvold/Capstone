@@ -58,8 +58,11 @@
 
                 python fit_gensim_lda.py
 
-   You will be prompted for the identifier string for the corpus and dictionary from which to build the model   
-           _**This string must match the string given in step 5!**_
+   You will be prompted for:
+    * The identifier string for the corpus and dictionary from which to build the model   
+          _**This string must match the string given in step 5!**_
+    * An identifier string for the model
+          _Can be different if desired_
         
    Depending on the details of your vm, this step will take at least a few hours.
 
