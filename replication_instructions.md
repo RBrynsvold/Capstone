@@ -22,7 +22,7 @@
    _For advanced users, there is the option to download and model the full 28k-book corpus.  See notes at the bottom._
    
  
-5. Set the run parameters for both scripts by tunneling in to the ec2 with a jupyter notebook
+5. Set the run parameters for both scripts by tunneling in to the EC2 with a jupyter notebook
 
     Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
 
@@ -61,7 +61,7 @@
    You will be prompted for the following information:
    
       * The identifier string for the corpus and dictionary from which to build the model   
-           __This string must match exactly the string given in step 5!__
+           __This string must match the string given in step 5!__
       * Number of topics to use for model fitting   
            _Suggested number of topics for initial model fitting run: 50_
       * Number of cores on your machine   
@@ -78,6 +78,6 @@
       
       
  **Note on Step 4:**
-On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced ec2 instance like the t2.xlarge - the default used in this project.  To download the full corpus, run this script instead of the one above:
+On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced EC2 instance like the t2.xlarge.  To download the full corpus, run this script instead of the one above:
 
                bash /home/vagrant/Capstone/bash_scripts/wget_download_full_corp_from_mirror.sh
