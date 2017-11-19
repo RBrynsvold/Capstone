@@ -38,7 +38,7 @@
         _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
 
 
-5. Execute the dimensional reduction script
+6. Execute the dimensional reduction script
 
    For this step you must enter the Capstone/py_scripts directory:
    
@@ -51,7 +51,7 @@
    Note: you will be prompted to provide an identifier string for your run.  Make note of this string, so you can provide it again for the fitting script.
 
 
-6. Execute the lda modeling script (also from the py_scripts directory)
+7. Execute the lda modeling script (also from the py_scripts directory)
 
                 python fit_gensim_lda.py
 
@@ -66,7 +66,7 @@
         
    Depending on the details of your vm, this step will take at least a few hours.
 
-7. Inspect the results of your fitted model inside a jupyter notebook!
+8. Inspect the results of your fitted model inside a jupyter notebook!
    
    * Repeat the tunneling steps listed in step 5
    * Open the 'load_inspect_model.ipynb' notebook
