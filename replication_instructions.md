@@ -34,7 +34,10 @@
       
     * Enter 'admin' in the password field
     * Navigate into the Capstone/notebooks directory  
-    * Launch the 'set_run_params.ipynb' notebook, and execute all cells.  
+    * Launch the 'set_run_params.ipynb' notebook
+    * Check all the numbers
+    * **Enter a string to identify the dimensional reduction and make note of it for later**
+    * Execute all cells.  
         _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
 
 
@@ -48,7 +51,7 @@
 
                 python dimensional_reduction.py
    
-   Note: you will be prompted to provide an identifier string for your run.  Make note of this string, so you can provide it again for the fitting script.
+   Note: you will be prompted to provide an identifier string for your run.  Use the same string you used in the set_run_params notebook.
 
 
 7. Execute the lda modeling script (also from the py_scripts directory)
