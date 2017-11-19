@@ -22,7 +22,7 @@
    _For advanced users, there is the option to download and model the full 28k-book corpus.  See notes at the bottom._
    
  
-5. Set the run parameters for both scripts by tunneling in to the ec2 with a jupyter notebook
+5. Set the run parameters for both scripts by tunneling in to the EC2 with a jupyter notebook
 
     Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
 
@@ -34,7 +34,10 @@
       
     * Enter 'admin' in the password field
     * Navigate into the Capstone/notebooks directory  
-    * Launch the 'set_run_params.ipynb' notebook, and execute all cells.  
+    * Launch the 'set_run_params.ipynb' notebook
+    * Check all the numbers
+    * **Enter a string to identify the dimensional reduction and make note of it for later**
+    * Execute all cells.  
         _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
 
 
@@ -48,33 +51,29 @@
 
                 python dimensional_reduction.py
    
-   Note: you will be prompted to provide an identifier string for your run.  Make note of this string, so you can provide it again for the fitting script.
+   Note: you will be prompted to provide an identifier string for your run.  Use the same string you used in the set_run_params notebook.
 
 
 7. Execute the lda modeling script (also from the py_scripts directory)
 
                 python fit_gensim_lda.py
 
-   You will be prompted for the following information:
-   
-      * The identifier string for the corpus and dictionary from which to build the model   
-           __This string must match exactly the string given in step 5!__
-      * Number of topics to use for model fitting   
-           _Suggested number of topics for initial model fitting run: 50_
-      * Number of cores on your machine   
-           If greater than 1, the model will be run multithreaded
+   You will be prompted for:
+    * The identifier string for the corpus and dictionary from which to build the model       
+          _**This string must match the string given in step 5!**_
+    * An identifier string for the model
+          _Can be different if desired_
         
-   Depending on the details of your vm, this step will take at least a few hours.
+   Depending on the details of your hardware, this step will take several minutes to several hours.
 
 8. Inspect the results of your fitted model inside a jupyter notebook!
    
-   * Repeat the tunneling steps listed in step 5
-   * Open the 'load_inspect_model.ipynb' notebook
+   * In your jupyter directory window (tunneling from step 5), open the 'load_inspect_model.ipynb' notebook
    * Execute the cells in order and do your own investigation of the results!
       
       
       
- **Note on Step 4:**
-On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced ec2 instance like the t2.xlarge default in this code.  To download the full corpus, run this script instead of the one above:
+ **Note on Step 4:**   
+_On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced EC2 instance like the t2.xlarge.  To download the full corpus, run this script instead of the one above:_
 
                bash /home/vagrant/Capstone/bash_scripts/wget_download_full_corp_from_mirror.sh
