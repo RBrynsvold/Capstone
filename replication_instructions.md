@@ -73,7 +73,7 @@
       
       
       
- **Note on Step 4:**
-On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced EC2 instance like the t2.xlarge.  To download the full corpus, run this script instead of the one above:
+ **Note on Step 4:**   
+_On the 5k-book corpus, the LDA algorithm will pretty consistently run to completion, but it is much more difficult (computationally intensive) to run on the full corpus.  Currently, I have not had success modeling the full corpus on a reasonably-priced EC2 instance like the t2.xlarge.  To download the full corpus, run this script instead of the one above:_
 
                bash /home/vagrant/Capstone/bash_scripts/wget_download_full_corp_from_mirror.sh
