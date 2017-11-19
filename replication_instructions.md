@@ -58,21 +58,14 @@
 
                 python fit_gensim_lda.py
 
-   You will be prompted for the following information:
-   
-      * The identifier string for the corpus and dictionary from which to build the model   
-           __This string must match the string given in step 5!__
-      * Number of topics to use for model fitting   
-           _Suggested number of topics for initial model fitting run: 50_
-      * Number of cores on your machine   
-           If greater than 1, the model will be run multithreaded
+   You will be prompted for the identifier string for the corpus and dictionary from which to build the model   
+           _**This string must match the string given in step 5!**_
         
    Depending on the details of your vm, this step will take at least a few hours.
 
 8. Inspect the results of your fitted model inside a jupyter notebook!
    
-   * Repeat the tunneling steps listed in step 5
-   * Open the 'load_inspect_model.ipynb' notebook
+   * In your jupyter directory window (tunneling from step 5), open the 'load_inspect_model.ipynb' notebook
    * Execute the cells in order and do your own investigation of the results!
       
       
