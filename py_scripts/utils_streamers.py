@@ -2,8 +2,6 @@ from __future__ import print_function
 from builtins import input
 import os, codecs
 
-#REUSABLE OBJS I'D LIKE TO HAVE
-
 #File naming (for save or load) utility
 class DirFileMgr(object):
     '''
@@ -79,7 +77,7 @@ class DirFileMgr(object):
             self.pyldavis_fp = self.model_dir + '/' + self.model_str + '_ldavis.html'
             print("pyLDAvis html fp is assigned as ", self.model_fp)
         elif obj == 'source_dir':
-            which_data = str(input("Which data set will be used? Enter either '5000' or '95': "))
+            which_data = str(input("Which data set will be used? Enter either '5000' or 'full': "))
             #^ this is super useful for development but should be removed for final reproducibility code
             #relative filepaths - various options for various corp sizes for dev
             if which_data == '5000':
@@ -94,7 +92,7 @@ class DirFileMgr(object):
             elif which_data == '95':
                 self.source_dir  = '../books/clean' + '/' #for 95-book practice data
                 print("source dir is assigned as", self.source_dir)
-            elif which_data == 'full corpus':
+            elif which_data == 'full':
                 self.source_dir = '../../full_corp_28k/clean_books' + '/'
             else:
                 print("Invalid entry for data source")
