@@ -37,7 +37,7 @@
     * Launch the 'set_run_params.ipynb' notebook
     * **Enter a string to identify the dimensional reduction or modeling run and make note of it for later**
     * Review all default values given for the run parameters and tweak as desired     
-        _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
+        _Defaults are given for each parameter, but here is where you can tweak parameters for experimentation._ 
     * Execute all cells in the relevant section(s)  
        
 
