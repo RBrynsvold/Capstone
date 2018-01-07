@@ -2,7 +2,7 @@
 
 ## Project Description
 
-Using a corpus of 5000 texts harvested from Project Gutenberg, a large online repository of ebooks, I've developed a topic model of these texts using Latent Dirichlet Allocation (LDA). The topic model allows us to understand a given text in terms of an 'constituent topics', for example: a book could contain a mixture of topics such as 'rome', 'classical music', and 'chemistry'!  It can also tell us topics related to a given word, or books related to given topic.  There's so much you can learn about a corpus (collection of documents) by fitting and exploring a topic model!
+Using a corpus of ~28,000 texts harvested from Project Gutenberg, a large online repository of ebooks, I've developed a topic model of these texts using Latent Dirichlet Allocation (LDA). The topic model allows us to understand a given text in terms of an 'constituent topics', for example: a book could contain a mixture of topics such as 'rome', 'classical music', and 'chemistry'.  It can also tell us topics related to a given word, or books related to given topic.  There's so much you can learn about a corpus (collection of documents) by fitting and exploring a topic model!
 
 
 ### Reproducibility with Project Rambo (tool by Terminal Labs)
