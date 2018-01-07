@@ -1,6 +1,7 @@
 from __future__ import print_function
 from builtins import input
 import os, codecs
+from shutil import copy2
 
 #File naming (for save or load) utility
 class DirFileMgr(object):
@@ -27,9 +28,10 @@ class DirFileMgr(object):
             os.makedirs(fp)
         else:
             if brk != 'N':
-                print("WARNING: path already exists.  Ending script.")
-                print("Rerun script and provide unused identifier string")
-                return "Exit program"
+                print("WARNING: path already exists.")  
+                print("Exit script now to avoid overwriting previous run.")
+                #print("Rerun script and provide unused identifier string")
+                #return "Exit program"
 
     def _setup_dirs(self, tmp_d='N'):
         '''
@@ -66,12 +68,22 @@ class DirFileMgr(object):
             print("counts dictionary fp is assigned as ", self.counts_fp)
         elif obj == 'dr_run_params':
             self.dr_run_params = head + '_dr_run_params.txt'
+            
+            #DEBUG
+            print (self.dr_run_params)
+            print ("path exists check: ", os.path.exists(self.dr_run_params))
+            
+            if not os.path.exists(self.dr_run_params):
+                self._copy_rename_run_params(head, self.dr_run_params)
             print("dimensional reduction run parameters fp is assigned as ", self.dr_run_params)
         elif obj == 'model':
             self.model_fp = self.model_dir + '/' + self.model_str + '.model'
             print("model fp is assigned as ", self.model_fp)
         elif obj == 'mod_run_params':
-            self.mod_run_params = head + '_mod_run_params.txt'
+            self.dr_run_params = head + '_dr_run_params.txt'
+            self.mod_run_params = self.model_dir + '/' + self.model_str + '_mod_run_params.txt'
+            if not os.path.exists(self.mod_run_params):
+                self._copy_rename_run_params(self.model_dir, self.mod_run_params)
             print("modeling run parameters fp is assigned as ", self.mod_run_params)
         elif obj == 'pyLDAvis':
             self.pyldavis_fp = self.model_dir + '/' + self.model_str + '_ldavis.html'
@@ -98,10 +110,29 @@ class DirFileMgr(object):
                 print("Invalid entry for data source")
                 #source_dir = '../../5000_books' + '/'
 
-                print("Data source to be used: ", source_dir)
+                print("Data source to be used: ", self.source_dir)
                 print("************************************************")
+            
         else:
             print("Type not recognized.  No filepath stored.")
+            
+    def _copy_rename_run_params(self, dest_dir, run_params_fp):
+        '''
+        Copies appropriate default run params file saves it to relevant run directory, and renames it.
+        '''
+        print("entered the copy_rename_run_params method")
+        
+        
+        if run_params_fp == self.dr_run_params:
+            
+            #DEBUG
+            print("entered dr if statement")
+            
+            src_file = 'default_dr_run_params.txt'
+        elif run_params_fp == self.mod_run_params:
+            src_file = 'default_mod_run_params.txt'
+        
+        copy2('../'+src_file, run_params_fp)
 
     def create_all_dr_fps(self, new_setup='Y'):
         '''
@@ -197,3 +228,4 @@ class BOWCorpStreamer(CorpStreamer):
             # cache the corpus length
             self.length = sum(1 for line in self.corp_stream)
         return self.length
+    

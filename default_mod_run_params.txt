@@ -1,0 +1,1 @@
+{"num_topics": 50, "passes": 10, "cores": 2, "chunksize": 2000, "update_every": 0}

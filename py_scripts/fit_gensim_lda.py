@@ -67,6 +67,8 @@ if __name__=='__main__':
     with open(fps.mod_run_params) as run_params_f:
         #add 'try' statement logic
         run_params = json.load(run_params_f)
+        run_params['dim_reduction_run_used'] = source_str
+    json.dump(run_params, open(fps.mod_run_params, 'w'))
     print ("The selected run parameters are:")
     print (run_params)
 

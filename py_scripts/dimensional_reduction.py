@@ -261,11 +261,14 @@ if __name__=='__main__':
     id_str = str(input("Enter brief identifier string, to be appended to all outputs of this dimensional reduction: "))
 
     fps = DirFileMgr(id_str)
-    fps.create_all_dr_fps(new_setup='Y')
+    fps.create_all_dr_fps()
 
     with open(fps.dr_run_params) as run_params_f:
         #add 'try' statement logic
         run_params = json.load(run_params_f)
+        run_params['dataset'] = fps.source_dir
+    json.dump(run_params, open(fps.dr_run_params, 'w'))
+        
     print (run_params)
 
     print("starting iteration thru corpus on disk")
