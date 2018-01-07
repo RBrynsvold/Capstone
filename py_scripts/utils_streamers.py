@@ -68,11 +68,6 @@ class DirFileMgr(object):
             print("counts dictionary fp is assigned as ", self.counts_fp)
         elif obj == 'dr_run_params':
             self.dr_run_params = head + '_dr_run_params.txt'
-            
-            #DEBUG
-            print (self.dr_run_params)
-            print ("path exists check: ", os.path.exists(self.dr_run_params))
-            
             if not os.path.exists(self.dr_run_params):
                 self._copy_rename_run_params(head, self.dr_run_params)
             print("dimensional reduction run parameters fp is assigned as ", self.dr_run_params)
@@ -120,14 +115,7 @@ class DirFileMgr(object):
         '''
         Copies appropriate default run params file saves it to relevant run directory, and renames it.
         '''
-        print("entered the copy_rename_run_params method")
-        
-        
         if run_params_fp == self.dr_run_params:
-            
-            #DEBUG
-            print("entered dr if statement")
-            
             src_file = 'default_dr_run_params.txt'
         elif run_params_fp == self.mod_run_params:
             src_file = 'default_mod_run_params.txt'
