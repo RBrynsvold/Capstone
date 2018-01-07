@@ -22,7 +22,7 @@
    _For advanced users, there is the option to download and model the full 28k-book corpus.  See notes at the bottom._
    
  
-5. Set the run parameters for both scripts by tunneling in to the EC2 with a jupyter notebook
+5. Optional: Set custom run parameters for one or both scripts by tunneling in to the EC2 with a jupyter notebook
 
     Your rambo vm should be set up such that you can easily tunnel in with a jupyter notebook, run from a browser on your computer.  Steps:
 
@@ -35,11 +35,11 @@
     * Enter 'admin' in the password field
     * Navigate into the Capstone/notebooks directory  
     * Launch the 'set_run_params.ipynb' notebook
-    * Check all the numbers
-    * **Enter a string to identify the dimensional reduction and make note of it for later**
-    * Execute all cells.  
+    * **Enter a string to identify the dimensional reduction or modeling run and make note of it for later**
+    * Review all default values given for the run parameters and tweak as desired
         _Defaults are given for parameter, but here is where you can tweak parameters for experimentation._ 
-
+    * Execute all cells in the relevant section(s)  
+       
 
 6. Execute the dimensional reduction script
 
