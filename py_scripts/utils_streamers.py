@@ -51,6 +51,7 @@ class DirFileMgr(object):
         '''
         Add filepath to the DirFileMgr instance [namespace]
         Stores all the file naming conventions in one place
+        #TODO: change all this to a dictionary??
         '''
         head = self.working_dir + '/' + self.id_str
 
