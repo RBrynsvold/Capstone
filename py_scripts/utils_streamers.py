@@ -6,8 +6,11 @@ from shutil import copy2
 #File naming (for save or load) utility
 class DirFileMgr(object):
     '''
-    GP utility to do directory and filepath management for the various inputs/outputs of the topic modeling project
-    Want to make file mgmt as automated and encapsulated as possible
+    General-purpose utility to do directory and filepath management for the various inputs/outputs of the topic modeling
+    project.  Intended to make file mgmt as automated and encapsulated as possible.
+
+    :param {str} id_str:
+        The unique identifier string for the run
     '''
 
     def __init__(self, id_str):
@@ -36,6 +39,9 @@ class DirFileMgr(object):
     def _setup_dirs(self, tmp_d='N'):
         '''
         Sets up directories in the architecture used for this project
+
+        :param {str} tmp_d:
+            Flag for temporary dictionaries directory - not always needed, so this toggles it on and off
         '''
         #if the directory does not already have an 'outputs-git_ignored' dir, then make it
             #reason for this dir: output file sizes too large to be pushed to github - causes git problems if not excluded
@@ -49,8 +55,7 @@ class DirFileMgr(object):
 
     def add_fp(self, obj):
         '''
-        Add filepath to the DirFileMgr instance [namespace]
-        Stores all the file naming conventions in one place
+        Add filepath to the DirFileMgr instance attributes.  Stores all the file naming conventions in one place
         #TODO: change all this to a dictionary??
         '''
         head = self.working_dir + '/' + self.id_str
@@ -114,7 +119,10 @@ class DirFileMgr(object):
             
     def _copy_rename_run_params(self, dest_dir, run_params_fp):
         '''
-        Copies appropriate default run params file saves it to relevant run directory, and renames it.
+        Copies appropriate default run params file, saves it to relevant run directory, and renames it.
+
+        :params {str} run_params_fp:
+            Filepath to the json file containing the run parameters for the run
         '''
         if run_params_fp == self.dr_run_params:
             src_file = 'default_dr_run_params.txt'
@@ -126,6 +134,9 @@ class DirFileMgr(object):
     def create_all_dr_fps(self, new_setup='Y'):
         '''
         Automates creation of all the filepaths for a dimensional reduction run.
+
+        :param {str} new_setup:
+            Flag to toggle the new setup behavior on/off
         '''
         if new_setup == 'Y':
             self._setup_dirs(tmp_d='Y')
@@ -139,6 +150,10 @@ class DirFileMgr(object):
     def create_all_modeling_fps(self, model_str):
         '''
         Automates creation of all the filepaths for a dimensional reduction run.
+
+        :param {str} model_str:
+            Unique identifier string for the modeling run
+
         '''
         self.model_str = model_str
         self.model_dir = self.git_ignored_dir + '/' + self.model_str
@@ -156,6 +171,14 @@ class DirFileMgr(object):
 class IterFile(object):
     '''
     File i/o and iteration utility
+
+    :param {str} filepath:
+        Filepath to the file being iterated
+    :param {str} mode:
+        Controls the file access mode.  Defaults to 'r' (read).
+    :param {str} encoding:
+        Encoding type for decoding the text file.  Defaults to 'utf_8'.
+
     '''
     def __init__(self, filepath, mode='r'):
         self.filepath = filepath
@@ -172,6 +195,12 @@ class IterFile(object):
             print("unicode error caught")
 
     def write(self, line):
+        """
+        Writes a line to the file
+
+        :param {str} line:
+            Text line to be written
+        """
         self.file.write(line)
 
     def close(self):
@@ -185,6 +214,16 @@ class IterFile(object):
 
 
 class CorpStreamer(object):
+    """
+    Streams a text-format corpus from location on disk
+
+    :param {gensim.corpora.dictionary.Dictionary} dictionary:
+        A gensim object containing the word-integer id mappings for the corpus
+    :param {str} corp_lst_fp:
+        Relative filepath to the corpus list
+    :param {str} inc_title
+        On/off switch for including the title in the streamed file (book) text
+    """
 
     def __init__(self, dictionary, corp_lst_fp, inc_title='N'):
         self.dictionary = dictionary
@@ -200,6 +239,16 @@ class CorpStreamer(object):
                     yield line.strip('/n').split(",")
 
 class BOWCorpStreamer(CorpStreamer):
+    """
+    Streams a bag-of-words-format corpus from location on disk
+
+    :param {gensim.corpora.dictionary.Dictionary} dictionary:
+        A gensim object containing the word-integer id mappings for the corpus
+    :param {str} corp_lst_fp:
+        Relative filepath to the corpus list
+    :param {str} inc_title
+        On/off switch for including the title in the streamed file (book) text
+    """
 
     def __init__(self, dictionary, corp_lst_fp, inc_title='N'):
         self.dictionary = dictionary

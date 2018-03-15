@@ -21,7 +21,12 @@ logging.root.level = logging.INFO  # ipython sometimes messes up the logging set
 
 class LDAMaker(object):
     '''
-    Contains everything to fit an LDA model
+    Collection of information, objects, and methods to fit an LDA model
+
+    :param {DirFileMgr obj} fps:
+        Class object that contains all the filepaths for the current task as object attributes
+    :param {dict(str, int/str)} run_params:
+        Dictionary containing all the parameters for the present run
     '''
     def __init__(self, fps, run_params):
         self.fps = fps

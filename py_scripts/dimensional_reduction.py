@@ -24,6 +24,13 @@ nltk.download('stopwords')
 class BookUtil(object):
     '''
     Performs the transformations on a book and stores the associated information
+
+    :param {str} f_id:
+        The name of the individual data file
+    :param {str} source_dir:
+        The relative path to the source directory that contains all the data (book) files
+    :param {set<str>} stop:
+        Set of english stopwords (from NLTK)
     '''
 
     def __init__(self, f_id, source_dir, stop):
@@ -35,7 +42,12 @@ class BookUtil(object):
 
     def _empty_line_check(self, line) :
         '''
-        checks for empty line
+        Checks for empty line
+
+        :param {str} line:
+            The line of text to be checked
+        :return {bool} empty:
+            A True/False response for whether the line is empty
         '''
         if line == "\n":
             empty = True
@@ -45,21 +57,30 @@ class BookUtil(object):
 
     def _basic_tokenize(self,line):
         '''
-        convert to list
-        strip punctuation, lowercase
+        Splits a line (converts to a list of strings), then strips punctuation, makes lowercase.  Also eliminates
+            tokens containing non-alphabet characters.
+
+        :param {str} line:
+            The line of text to be tokenized
+        :return {list<str>}:
         '''
         return [tok.strip(punctuation).lower().strip(punctuation) for tok in line.strip('\n').split() if tok.isalpha()]
 
     def _remove_stop_words(self, line):
         '''
-        Get the stopwords list from nltk and take them out of the line
+        Removes stopwords from the tokenized line
+
+        :param {list<str>} line:
+            Tokenized partially-processed line
+        :return {list<str>}
+            Further processed line
         '''
         return [tok for tok in line if tok not in self.stop]
 
     def transform(self):
         '''
-        Call other class methods to perform document transformations.
-        Record numerical counts for transformation analysis
+        Calls other class methods to perform document transformations.  Records numerical counts for transformation
+            analysis.
         '''
         self.tok_book_as_lst, self.transf_book_as_lst = [], []
 
@@ -85,8 +106,20 @@ def process_books(fps, min_freq, run_params):
     #Should probably rewrite as class obj? Maybe not?
     #Rewrote filepath mgmt as class obj - that might have done what I wanted
     '''
-    Iterate thru all books and create a dictionary.
-    Save each 'book-as-list' to a file, to use later to create the BOW corpus.
+    Iterates through all text data files (books) and creates a dictionary.  Saves each 'book-as-list' to a file, to use
+        later to create the BOW corpus.
+
+    :param {DirFileMgr obj} fps:
+        Class object that contains all the filepaths for the current task as object attributes
+    TODO: min_freq is redundant with run_params['min_freq'] - update to fix
+    :param {int} min_freq:
+        The minimum number of documents that a token must appear in to be kept in the corpus dictionary
+    :param {dict(str, int/str)} run_params:
+        Dictionary containing all the parameters for the present run
+    :return {gensim.corpora.dictionary.Dictionary} dictionary:
+        A gensim object containing the word-integer id mappings for the entire corpus
+    :return {dict(str, int)} counts_dict:
+
     '''
     fileid_lst = get_fileid_lst(fps.source_dir)
 
@@ -140,6 +173,7 @@ def process_books(fps, min_freq, run_params):
 
     counts_dict = dict({'tokenized' : dict({'avg_words' : tokenized_avg_words, 'avg_unique' : tokenized_avg_unique, 'total_vocab' : tokenized_total_vocab}),  'tok_and_sw' : dict({'avg_words' : transf_avg_words, 'avg_unique' : transf_avg_unique, 'total_vocab' : transf_total_vocab})})
 
+    #this logic needs to be updated - min_freq is a redundant variable
     if min_freq != None:
         dictionary, ff_word_count, ff_unique_count = frequency_filtering(dictionary, fps.corp_lst_fp, no_below=run_params['min_freq'], no_above=run_params['max_freq'], keep_n=run_params['keep_n'])
 
@@ -157,6 +191,14 @@ def process_books(fps, min_freq, run_params):
 def get_book_title(f_id, metadata):
     '''
     Query metadata based on file id
+
+    :param {str} f_id:
+        Name of the text data file (book) for which we need title
+    :param {dict(str, <various types>)} metadata:
+        Dictionary containing all the metadata available from Gutenberg website's XML file.  See metadata_extraction.py
+        for source
+    :return {str} title:
+        The title of book contained in the text data file of interest.
     '''
     book_num = int(f_id.rstrip('.txt'))
     #book_num = f_id.rstrip('.txt')  # doesn't work b/c metadata index expects int
@@ -188,8 +230,21 @@ def merge_dicts(dicts_count, outputs_dir):
 
 def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
     '''
-    Save out intermediate dictionaries.
-    When all the files have been processed, save the last piece and merge all the dictionaries.
+    Saves intermediate dictionaries to file in order to prevent RAM overload during run.
+
+    When all the files have been processed, saves the last piece and merge all the dictionaries.
+
+    :param {list(list(str))} tmp_books_lst:
+        A list containing the processed text for each book in the current chunk, each as a list of tokens (strings)
+    :param {str} dicts_fp:
+        Filepath where dictionaries are to be saved.
+    :param {int} dicts_count:
+        Count of the present chunk of books ('chunk x of y')
+    :param {str} final_merge:
+        Flag for the final merge step.  If 'y', then go forward with the final merge.
+    :return {gensim.corpora.dictionary.Dictionary} dictionary:
+        If run in the final merge case, will return a combined gensim dictionary object for the whole corpus
+
     '''
     d_tmp = corpora.dictionary.Dictionary()
     d_tmp.add_documents(tmp_books_lst)
@@ -207,7 +262,24 @@ def create_save_dicts(tmp_books_lst, dicts_fp, dicts_count, final_merge="y"):
 
 def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.5, keep_n=2000000):
     '''
-    Remove words that appear in less than 5 documents or more than 50 percent of documents (defaults)
+    Remove words that appear in less than no_below documents or more than no_above proportion of documents
+
+    :param {gensim.corpora.dictionary.Dictionary} dictionary:
+        A gensim object containing the word-integer id mappings for the entire corpus
+    :param {str} corp_lst_filep:
+        The relative path for the file containing the entire processed corpus in text form - one file/book per line
+    :param {int} no_below:
+        The minimum number of documents that a token must appear in to be kept in the corpus dictionary.  Defaults to 5.
+    :param {int} no_above:
+        The maximum proportion of the corpus that a token can appear in before being removed.  Defaults to 0.5
+    :param {int} keep_n:
+        Number of dictionary terms to keep.  Terms in excess of this number are discarded.
+    :return {gensim.corpora.dictionary.Dictionary} dictionary:
+        A gensim object containing the word-integer id mappings for the entire corpus - now frequncy filtered
+    :return {int} ff_word_count:
+        Total word count after frequency filtering
+    :return {int} ff_unique_count
+        Count of unique words after frequency filtering
     '''
     #This should probably be another class method of bookS utils?
 
@@ -249,6 +321,11 @@ def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.5, ke
 def get_fileid_lst(source_dir):
     '''
     Use NLTK to pull in the list of file ids in the given source directory
+
+    :param {str} source_dir:
+        The relative path to the source directory that contains all the data (book) files
+    :return {str} fileid_lst:
+        List of all file id's ending in '.txt' in the source_dir
     '''
     temp_corp = PlaintextCorpusReader(source_dir, '.*\.txt')
     fileid_lst = temp_corp.fileids()
