@@ -107,6 +107,8 @@ class DirFileMgr(object):
                 print("source dir is assigned as", self.source_dir)
             elif which_data == 'full':
                 self.source_dir = '../../full_corp_28k/clean_books' + '/'
+            elif which_data == 'gpu-full':
+                self.source_dir = ''
             else:
                 print("Invalid entry for data source")
                 #source_dir = '../../5000_books' + '/'

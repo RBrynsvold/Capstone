@@ -9,6 +9,8 @@ import json
 from utils_streamers import CorpStreamer, BOWCorpStreamer, DirFileMgr
 
 import logging
+import resource
+
 import itertools
 
 logging.basicConfig(format='%(levelname)s : %(message)s', level=logging.INFO)
@@ -93,3 +95,5 @@ if __name__=='__main__':
     print("Model fitted and saved!")
 
     #To support more docs: try rewriting to fit model to smaller # of docs, then updating model - over and over until full corpus is processed??
+
+# print 'Memory usage: %s (kb)' % resource.getrusage(resource.RUSAGE_SELF).ru_maxrss

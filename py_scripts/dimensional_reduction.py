@@ -17,8 +17,7 @@ from utils_streamers import DirFileMgr, IterFile
 
 from nltk.corpus import stopwords
 nltk.download('stopwords')
-#^should I include download of nltk stopwords in my vagrant configuration?
-#separate python script?
+#^change to another list of stopwords - maybe hard-coded
 #needs to be done the first time, but not every time (take est. 3-5s)
 
 class BookUtil(object):
