@@ -108,7 +108,7 @@ class DirFileMgr(object):
             elif which_data == 'full':
                 self.source_dir = '../../full_corp_28k/clean_books' + '/'
             elif which_data == 'gpu-full':
-                self.source_dir = '/data/ProjectGutenberg'
+                self.source_dir = '/data/ProjectGutenberg' + '/'
             else:
                 print("Invalid entry for data source")
                 #source_dir = '../../5000_books' + '/'
