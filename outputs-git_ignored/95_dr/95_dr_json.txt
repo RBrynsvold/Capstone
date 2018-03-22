@@ -1,0 +1,1 @@
+{"tokenized": {"avg_words": 107376, "avg_unique": 6404, "total_vocab": 80314}, "tok_and_sw": {"avg_words": 44040, "avg_unique": 6285, "total_vocab": 80135}, "freq_filtered": {"avg_words": 10485, "avg_unique": 3411, "total_vocab": 20468}}
