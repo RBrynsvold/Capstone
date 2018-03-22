@@ -15,7 +15,7 @@ class DirFileMgr(object):
 
     def __init__(self, id_str):
         self.id_str = id_str
-        self.git_ignored_dir = '../' + 'outputs-git_ignored'
+        self.git_ignored_dir = '../../' + 'outputs-git_ignored'
         self.working_dir = self.git_ignored_dir + '/' + self.id_str
 
     def _check_make_dir(self, fp, brk='N'):
