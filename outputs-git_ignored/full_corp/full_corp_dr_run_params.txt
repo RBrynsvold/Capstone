@@ -1,1 +1,0 @@
-{"min_freq": 5, "max_freq": 0.5, "keep_n": 2000000, "dataset": "/data/ProjectGutenberg"}

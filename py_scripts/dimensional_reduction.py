@@ -207,7 +207,7 @@ def get_book_title(f_id, metadata):
     except KeyError:
         title = "NotAvailable"
 
-    print(title)
+    print(title.encode('utf-8'))
     return title
 
 #dont think I'm actually using this function anymore??
@@ -298,7 +298,7 @@ def frequency_filtering(dictionary, corp_lst_filep, no_below=5, no_above=0.5, ke
     for num, book_line in enumerate(transf_corp_f):
         stripped_line = book_line.strip('/n').split(",")
         title = stripped_line[0]
-        print(title)
+        print(title.encode('utf-8'))
         filtered_line = [tok for tok in stripped_line[1:] if tok in s]
 
         ff_word_count_lst.append(len(filtered_line))
