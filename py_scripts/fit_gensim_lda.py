@@ -76,9 +76,9 @@ if __name__=='__main__':
     fps.create_all_modeling_fps(dest_str)
 
     #was nice to document the dr run used, but breaks the lda object when run_params fed in with the ** syntax
-    # with open(fps.mod_run_params) as run_params_f:
+    with open(fps.mod_run_params) as run_params_f:
     #     #add 'try' statement logic
-    #     run_params = json.load(run_params_f)
+        run_params = json.load(run_params_f)
     #     run_params['dim_reduction_run_used'] = source_str
     # json.dump(run_params, open(fps.mod_run_params, 'w'))
     print ("The selected run parameters are:")
