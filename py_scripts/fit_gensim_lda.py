@@ -55,9 +55,9 @@ class LDAMaker(object):
                 # chunksize=self.run_params['chunksize'], passes=self.run_params['passes'])
         else:
             print("running multi-core")
-            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=self.run_params['num_topics'], chunksize=self.run_params['chunksize'], passes=self.run_params['passes'], workers=self.run_params['cores']-1)
-
-        print(type(self.lda))
+            # self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=self.run_params['num_topics'], chunksize=self.run_params['chunksize'], passes=self.run_params['passes'], workers=self.run_params['cores']-1)
+            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, **self.run_params)
+        print(type(self.lda), self.lda)
 
     def save_lda(self):
         '''

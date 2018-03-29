@@ -88,7 +88,7 @@ class DirFileMgr(object):
             print("modeling run parameters fp is assigned as ", self.mod_run_params)
         elif obj == 'pyLDAvis':
             self.pyldavis_fp = self.model_dir + '/' + self.model_str + '_ldavis.html'
-            print("pyLDAvis html fp is assigned as ", self.model_fp)
+            print("pyLDAvis html fp is assigned as ", self.pyldavis_fp)
         elif obj == 'source_dir':
             which_data = str(input("Which data set will be used? Enter either '5000' or 'full': "))
             #^ this is super useful for development but should be removed for final reproducibility code
@@ -115,6 +115,9 @@ class DirFileMgr(object):
 
                 print("Data source to be used: ", self.source_dir)
                 print("************************************************")
+        elif obj == 'coherence_model':
+            self.coherence_model_fp = self.model_dir + '/' + self.model_str + '_coherence_model.'
+            print("coherence model fp is assigned as ", self.coherence_model_fp)
             
         else:
             print("Type not recognized.  No filepath stored.")
