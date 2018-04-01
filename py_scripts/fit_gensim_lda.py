@@ -1,6 +1,7 @@
 from __future__ import print_function
 from builtins import input
 import os, codecs
+import numpy as np
 import gensim
 from gensim import corpora
 from gensim.models import ldamodel
