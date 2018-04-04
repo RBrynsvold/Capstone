@@ -1,0 +1,5 @@
+name: WiDS_topic_modeling
+channels:
+  - defaults
+prefix: /anaconda3/envs/WiDS_topic_modeling
+
