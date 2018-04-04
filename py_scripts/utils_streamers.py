@@ -118,6 +118,8 @@ class DirFileMgr(object):
         elif obj == 'coherence_model':
             self.coherence_model_fp = self.model_dir + '/' + self.model_str + '_coherence_model.'
             print("coherence model fp is assigned as ", self.coherence_model_fp)
+        elif obj == 'coherence_df':
+            self.coherence_df_fp = self.model_dir + '/' + self.model_str + '_coherence_df.csv'
             
         else:
             print("Type not recognized.  No filepath stored.")
