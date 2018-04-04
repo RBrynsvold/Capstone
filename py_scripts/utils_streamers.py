@@ -145,7 +145,7 @@ class DirFileMgr(object):
         '''
         if new_setup == 'Y':
             self._setup_dirs(tmp_d='Y')
-        self.add_fp('source_dir')
+            self.add_fp('source_dir')
         self.add_fp('corp_lst')
         self.add_fp('dictionary')
         self.add_fp('counts_dict')
