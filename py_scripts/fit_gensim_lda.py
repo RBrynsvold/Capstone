@@ -47,19 +47,19 @@ class LDAMaker(object):
         '''
         Fits lda model with given number of topics using the loaded corpus and dictionary
         '''
-        # if self.run_params['cores'] == 1:
-        #     print("running single core")
-        #     self.lda = ldamodel.LdaModel(corpus=self.corpus, alpha='auto', id2word=self.dictionary, **self.run_params)
+        if self.run_params['cores'] == 1:
+            print("running single core")
+            self.lda = ldamodel.LdaModel(corpus=self.corpus, alpha='auto', id2word=self.dictionary, **self.run_params)
 
-                # corpus=self.corpus,alpha='auto', id2word=self.dictionary, \
-                # num_topics=self.run_params['num_topics'], update_every=self.run_params['update_every'], \
-                # chunksize=self.run_params['chunksize'], passes=self.run_params['passes'])
-        # else:
-        print("running multi-core")
-        # self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, num_topics=self.run_params['num_topics'], chunksize=self.run_params['chunksize'], passes=self.run_params['passes'], workers=self.run_params['cores']-1)
-        self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, alpha=np.full((self.run_params['num_topics'],), 50/self.run_params['num_topics']),\
-                                **self.run_params)
-        # self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, **self.run_params)
+                corpus=self.corpus,alpha='auto', id2word=self.dictionary, \
+                num_topics=self.run_params['num_topics'], update_every=self.run_params['update_every'], \
+                chunksize=self.run_params['chunksize'], passes=self.run_params['passes'])
+        else:
+            print("running multi-core")
+            #alternate code to run with manual alpha
+            # self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, alpha=np.full((self.run_params['num_topics'],), 50/self.run_params['num_topics']),\
+                                    **self.run_params)
+            self.lda = LdaMulticore(corpus=self.corpus, id2word=self.dictionary, **self.run_params)
         print(type(self.lda), self.lda)
 
     def save_lda(self):

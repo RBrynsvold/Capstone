@@ -9,12 +9,6 @@ Using a corpus of ~28,000 texts harvested from Project Gutenberg, a large online
 
 For this project, I collaborated with Terminal Labs to use their open-source [project Rambo](https://github.com/terminal-labs/rambo).  This tool allows users to automate Vagrant provisioning and configuration of virtual machines for use on distributed computing resources (including AWS, Digitial Ocean, and VirtualBox).  Not only was it a valuable aid during the development cycle, but it allows the work to be reliably reproduced by anyone, anywhere!
 
-
-### Want to try it for yourself?
-
-Follow these [replication instructions](https://github.com/RBrynsvold/Capstone/blob/master/replication_instructions.md) and see what you can discover!
-
-
 ### Thanks so much for stopping by!
 
 Please let me know your experiences in reproducing this work: new learnings, suggestions, bugs... This project is ongoing, so I'd always love to hear your feedback!
